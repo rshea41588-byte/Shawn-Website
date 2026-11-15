@@ -1,0 +1,19 @@
+node_modules/
+.tools/
+.env
+.env.*
+!.env.example
+.vercel/
+dist/
+coverage/
+*.log
+
+# Local research and review material
+precisionjiujitsunh.com-audit/
+review-previews/
+redesign-review.md
+VERCEL-SETUP.md
+scripts/optimize-images.py
+scripts/transcribe-testimonials.py
+scripts/social-preview.html
+review-assets/precision-logo.webp

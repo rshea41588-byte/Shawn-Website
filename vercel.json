@@ -1,0 +1,32 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "functions": { "api/trial.mjs": { "maxDuration": 15 } },
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.precisionjiujitsunh.com" }],
+      "destination": "https://precisionjiujitsunh.com/:path*",
+      "permanent": true
+    },
+    { "source": "/services", "destination": "/#schedule", "permanent": true },
+    { "source": "/services/", "destination": "/#schedule", "permanent": true },
+    { "source": "/about", "destination": "/#coaches", "permanent": true },
+    { "source": "/about/", "destination": "/#coaches", "permanent": true },
+    { "source": "/contact", "destination": "/#trial", "permanent": true },
+    { "source": "/contact/", "destination": "/#trial", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
