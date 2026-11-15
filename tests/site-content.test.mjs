@@ -68,3 +68,23 @@ test('course pages use only the verified public publisher players and have disti
     assert.doesNotMatch(html,/<iframe/,'Players must wait for visitor loading');
   }
 });
+
+test('Shawn’s profile exposes the complete catalog and separates booking enquiries from trial requests',async()=>{
+  const files=await compilePages();
+  const profile=files.get('shawn-melanson.html');
+  const displayed=[...profile.matchAll(/data-instructional="([^"]+)"/g)].map(match=>match[1]);
+  assert.equal(displayed.length,courses.length);
+  assert.deepEqual(new Set(displayed),new Set(courses.map(course=>course.slug)));
+  assert.equal(displayed[0],'leg-drag-system');
+  assert.equal((profile.match(/class="mobile-cta"/g)||[]).length,1);
+  for (const id of ['1695','1735','1478','887']) assert.ok(profile.includes(`https://ibjjf.com/events/${id}/results`));
+  const enquiries=[...profile.matchAll(/href="(mailto:[^"]+subject=[^"]+)"/g)].map(match=>new URL(match[1].replaceAll('&amp;','&')));
+  for (const topic of ['seminar','private training']) {
+    const enquiry=enquiries.find(url=>url.searchParams.get('subject')?.includes(topic));
+    assert.ok(enquiry,topic);
+    assert.equal(enquiry.pathname,'precisionjiujitsu29@gmail.com');
+    assert.match(enquiry.searchParams.get('body'),/Your name and contact details:/);
+  }
+  assert.ok(profile.includes('https://www.youtube.com/@shawnmelanson160'));
+  assert.doesNotMatch(profile,/<iframe/,'The interview should load only when requested');
+});

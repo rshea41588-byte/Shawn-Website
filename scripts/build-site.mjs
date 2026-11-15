@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile, readdir, copyFile, rm } from 'node:fs/promi
 import { dirname, join, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pages, defaultOrigin } from './site-data.mjs';
-import { renderPage, scheduleRows, notFound } from './render-pages.mjs';
+import { renderPage, scheduleRows, notFound, renderProfileCatalog } from './render-pages.mjs';
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const releaseEnabled = env => env.VERCEL_ENV === 'production' && env.SITE_LAUNCH_READY === 'true';
@@ -20,6 +20,7 @@ export async function compilePages({origin=defaultOrigin,publicRelease=false}={}
   const files=new Map();
   for (const page of pages) {
     let html=page.source?await readFile(join(root,page.source),'utf8'):renderPage(page,origin);
+    if (page.route==='/shawn-melanson') html=html.replace(/<!-- PROFILE CATALOG START -->[\s\S]*?<!-- PROFILE CATALOG END -->/,`<!-- PROFILE CATALOG START -->\n${renderProfileCatalog()}\n<!-- PROFILE CATALOG END -->`);
     if (page.route==='/') for (const kind of ['adult','kids','open']) {
       const expression=new RegExp(`(<div[^>]*id="panel-${kind}"[^>]*>)[\\s\\S]*?(?=\\n          <\\/div>)`);
       html=html.replace(expression,`$1\n${scheduleRows(kind,true)}`);

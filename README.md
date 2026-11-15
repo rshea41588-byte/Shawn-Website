@@ -52,6 +52,14 @@ There is also a branded `404.html`, circular SVG favicon, browser manifest, `llm
 
 The site has seven public previews and five additional free samples. Permission to use those public players was confirmed by Ryan. Full courses stay on BJJ Fanatics. Players load only after a visitor chooses to load one. Cover art is requested from the publisher; the media is not copied into this repository. Keep the publisher fallback link if an embed changes or becomes unavailable.
 
+Shawn’s profile displays all seven courses. Its catalog block is generated from the same course data during local preview and production builds, using `renderProfileCatalog` in `scripts/render-pages.mjs`. The marked block in the source HTML is a readable reference copy. Keep the catalog data authoritative when making future changes. The Leg Drag listing has 33 curriculum chapters across two volumes; that total includes introductory and closing sections.
+
+The Air Jail section embeds a 54 second excerpt from the official Fighting for Your Life Podcast interview, from 27:24 to 28:18, after a visitor chooses to load it. The segment was located through the public episode captions. A separate link opens the complete interview. Its YouTube thumbnail can load before playback. The opening competition video remains silent and separate from this optional interview. The privacy page describes these providers.
+
+Seminar and private training buttons prepare email to the verified Precision gym inbox. They do not send a message, take payment or confirm availability. Retreat information links to Hero Academy because the organizer’s dates have changed and its pages currently disagree. Do not copy a fixed date from an older search result.
+
+The profile’s IBJJF medals link to the federation’s official result pages. Kansas City 2020 was a gi result. Its press links distinguish course reviews from competition reporting. The student quote comes from the existing member testimonial video, which is linked beside the quote. Travel totals and an unverified personal Facebook account are omitted.
+
 Course summaries and study suggestions are authored page content based on the published curriculum. They are not personal quotes, transcripts or reviews of the complete courses. Shawn should review the wording and may add original coaching commentary later. VideoObject markup is omitted because verified upload dates and complete sample metadata were not available. No publisher ratings are imported into academy review schema.
 
 ## Vercel and indexing
@@ -114,7 +122,7 @@ Connect a chosen analytics provider to these events only after its privacy and c
 
 Tests cover request validation and failure handling, source preservation, preview and production indexing, metadata and schema, and internal page and asset discovery. The build includes only the static asset folders on its allow list. GitHub Actions runs the tests and build on pushes and pull requests.
 
-Local review on November 15, 2026: all 10 automated tests passed, all 14 routes responded successfully, and all seven public previews plus five free samples played in the browser. Responsive checks included desktop and mobile widths of 390 and 320 pixels. The homepage retained its transparent header and autoplaying, muted, looping video. These checks are local verification, not production field performance measurements.
+Local review on November 15, 2026: all 11 automated tests passed, all 14 routes responded successfully, and all seven public previews plus five free samples played in the browser. Responsive checks included desktop and mobile widths of 390 and 320 pixels. The homepage retained its transparent header and autoplaying, muted, looping video. These checks are local verification, not production field performance measurements.
 
 Research reports, screenshots and other working material belong in the separate `Website working files` folder outside this repository. Build output is ignored by Git. Commit source, content, tests and documentation through GitHub Desktop when the review is complete.
 
