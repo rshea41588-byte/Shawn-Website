@@ -78,13 +78,25 @@ test('Shawn’s profile exposes the complete catalog and separates booking enqui
   assert.equal(displayed[0],'leg-drag-system');
   assert.equal((profile.match(/class="mobile-cta"/g)||[]).length,1);
   for (const id of ['1695','1735','1478','887']) assert.ok(profile.includes(`https://ibjjf.com/events/${id}/results`));
-  const enquiries=[...profile.matchAll(/href="(mailto:[^"]+subject=[^"]+)"/g)].map(match=>new URL(match[1].replaceAll('&amp;','&')));
-  for (const topic of ['seminar','private training']) {
-    const enquiry=enquiries.find(url=>url.searchParams.get('subject')?.includes(topic));
-    assert.ok(enquiry,topic);
-    assert.equal(enquiry.pathname,'precisionjiujitsu29@gmail.com');
-    assert.match(enquiry.searchParams.get('body'),/Your name and contact details:/);
-  }
+  assert.match(profile,/id="booking-form"[^>]+action="\/api\/booking"/);
+  for (const kind of ['seminar','private']) assert.ok(profile.includes(`data-booking-kind="${kind}"`));
+  assert.doesNotMatch(profile,/profile-visit|herobjj\.com|Costa Rica|Watch the original member testimonial/);
+  assert.match(profile,/href="\/#stories">Real people, real reasons to train/);
   assert.ok(profile.includes('https://www.youtube.com/@shawnmelanson160'));
   assert.doesNotMatch(profile,/<iframe/,'The interview should load only when requested');
+});
+
+test('shared navigation groups training and avoids duplicate footer destinations on every page',async()=>{
+  const files=await compilePages();
+  for (const [name,html] of files) {
+    assert.equal((html.match(/class="nav-dropdown training-dropdown"/g)||[]).length,3,name);
+    assert.equal((html.match(/class="mobile-cta"/g)||[]).length,1,name);
+    const footer=html.match(/<nav class="footer-links"[\s\S]*?<\/nav>/)[0];
+    assert.doesNotMatch(footer,/href="\/(instructionals|shawn-melanson)"/,name);
+    assert.ok(footer.includes('/adult-no-gi-jiu-jitsu'));
+    assert.ok(footer.includes('/kids-jiu-jitsu'));
+  }
+  const home=files.get('index.html');
+  assert.match(home,/<iframe title="Google Maps: Precision Jiu Jitsu/);
+  assert.match(home,/src="https:\/\/www.google.com\/maps\/embed\?pb=/);
 });

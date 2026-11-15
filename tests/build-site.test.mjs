@@ -26,7 +26,7 @@ test('all pages need launch approval for indexing and building preserves every s
     const profile=await readFile(join(root,'dist/shawn-melanson.html'),'utf8');
     assert.match(profile,/<meta name="robots" content="index, follow, max-image-preview:large">/);
     assert.match(profile,/rel="canonical" href="https:\/\/precisionjiujitsunh.com\/shawn-melanson"/);
-    assert.match(profile,/href="\/#trial"/);
+    assert.match(profile,/href="#seminars"/);
     assert.doesNotMatch(profile,/href="new index.html/);
     assert.ok((await readFile(join(root,'dist/site-assets/site.css'),'utf8')).includes('.home-page .site-header'));
     assert.ok((await readFile(join(root,'dist/site-assets/navigation.js'),'utf8')).includes('updateHeader'));

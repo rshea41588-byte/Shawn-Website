@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "functions": { "api/trial.mjs": { "maxDuration": 15 } },
+  "functions": { "api/trial.mjs": { "maxDuration": 15 }, "api/booking.mjs": { "maxDuration": 15 } },
   "redirects": [
     {
       "source": "/:path*",

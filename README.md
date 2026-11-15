@@ -56,9 +56,9 @@ Shawn’s profile displays all seven courses. Its catalog block is generated fro
 
 The Air Jail section embeds a 54 second excerpt from the official Fighting for Your Life Podcast interview, from 27:24 to 28:18, after a visitor chooses to load it. The segment was located through the public episode captions. A separate link opens the complete interview. Its YouTube thumbnail can load before playback. The opening competition video remains silent and separate from this optional interview. The privacy page describes these providers.
 
-Seminar and private training buttons prepare email to the verified Precision gym inbox. They do not send a message, take payment or confirm availability. Retreat information links to Hero Academy because the organizer’s dates have changed and its pages currently disagree. Do not copy a fixed date from an older search result.
+Seminar and private training buttons open an enquiry form on Shawn’s page. The `/api/booking` endpoint sends enquiries through the same Resend account and verified sender used for class requests. It uses `BOOKING_TO_EMAIL` when set, otherwise `TRIAL_TO_EMAIL`, then the Precision gym inbox. No payment or reservation is made. Specific retreat dates are omitted so the page does not depend on an event calendar.
 
-The profile’s IBJJF medals link to the federation’s official result pages. Kansas City 2020 was a gi result. Its press links distinguish course reviews from competition reporting. The student quote comes from the existing member testimonial video, which is linked beside the quote. Travel totals and an unverified personal Facebook account are omitted.
+The profile’s IBJJF medals link to the federation’s official result pages. Kansas City 2020 was a gi result. Its press links distinguish course reviews from competition reporting. The student quote comes from the existing member testimonial video. The link beside the quote returns to the homepage’s member stories section. Travel totals and an unverified personal Facebook account are omitted.
 
 Course summaries and study suggestions are authored page content based on the published curriculum. They are not personal quotes, transcripts or reviews of the complete courses. Shawn should review the wording and may add original coaching commentary later. VideoObject markup is omitted because verified upload dates and complete sample metadata were not available. No publisher ratings are imported into academy review schema.
 
@@ -88,7 +88,7 @@ Before changing DNS or enabling indexing:
 5. Review the privacy notice before adding analytics or changing data collection.
 6. After the approved deployment, check page and header directives, redirects, canonicals, the sitemap and mobile rendering on the actual domain. Submit the sitemap in Search Console and Bing Webmaster Tools using the owner’s accounts.
 
-## Trial requests
+## Class and coaching enquiries
 
 Copy `.env.example` to `.env.local` for local configuration. Set the same server secrets in Vercel when ready. Never commit actual credentials.
 
@@ -97,10 +97,13 @@ Copy `.env.example` to `.env.local` for local configuration. Set the same server
 | `RESEND_API_KEY` | Resend server key |
 | `TRIAL_FROM_EMAIL` | Sender on a domain verified with Resend |
 | `TRIAL_TO_EMAIL` | Intended gym inbox |
+| `BOOKING_TO_EMAIL` | Optional seminar and private training inbox override |
 | `SITE_URL` | Intended public origin |
 | `SITE_LAUNCH_READY` | Explicit indexing switch, initially false |
 
-Without provider credentials, the form clearly reports that sending is unavailable and offers prepared email and phone alternatives. Preparing or copying an email does not send it. A successful API response means the email provider accepted the request. It does not prove inbox delivery, a confirmed class or a membership sale. Confirm those outcomes with the gym.
+Without provider credentials, both enquiry forms clearly report that sending is unavailable and offers prepared email and phone alternatives. Preparing or copying an email does not send it. Both forms require a provider acceptance receipt before showing success. A successful API response means the email provider accepted the request. It does not prove inbox delivery, a confirmed class or a membership sale. Confirm those outcomes with the gym.
+
+The homepage includes the official Google Maps embed for the gym’s listing. The shared Training dropdown contains adult classes, kids classes and first class information in the desktop, mobile and footer navigation. Shawn’s page uses a coaching enquiry action instead of a local class signup action.
 
 ## Measurement
 
@@ -122,8 +125,10 @@ Connect a chosen analytics provider to these events only after its privacy and c
 
 Tests cover request validation and failure handling, source preservation, preview and production indexing, metadata and schema, and internal page and asset discovery. The build includes only the static asset folders on its allow list. GitHub Actions runs the tests and build on pushes and pull requests.
 
-Local review on November 15, 2026: all 11 automated tests passed, all 14 routes responded successfully, and all seven public previews plus five free samples played in the browser. Responsive checks included desktop and mobile widths of 390 and 320 pixels. The homepage retained its transparent header and autoplaying, muted, looping video. These checks are local verification, not production field performance measurements.
+Local review on November 15, 2026: all 17 automated tests passed, all 14 routes responded successfully, and all seven public previews plus five free samples played in the browser. Responsive checks included desktop and mobile widths of 390 and 320 pixels. The homepage retained its transparent header and autoplaying, muted, looping video. These checks are local verification, not production field performance measurements.
 
 Research reports, screenshots and other working material belong in the separate `Website working files` folder outside this repository. Build output is ignored by Git. Commit source, content, tests and documentation through GitHub Desktop when the review is complete.
 
 Ongoing work from the strategy requires the owner’s accounts and real observations: Google Business Profile updates, Search Console and Bing setup, analytics selection, publisher sales attribution, new coaching contributions, partnerships and periodic performance reviews. No traffic, sales, field performance or ranking baseline is invented here. Review public results after sufficient real activity before adding more pages.
+
+Navigation and enquiry review on November 15, 2026: Training dropdowns work in desktop, mobile and footer navigation. Both coaching enquiry buttons open the form, validation blocks incomplete requests, and the unavailable provider path preserves a copyable message. The homepage map shows the gym’s Google Maps pin. Live email delivery has not been tested or confirmed.

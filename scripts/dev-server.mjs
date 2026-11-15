@@ -5,6 +5,7 @@ import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Readable } from 'node:stream';
 import { createTrialHandler } from '../server/trial-handler.mjs';
+import { createBookingHandler } from '../server/booking-handler.mjs';
 import { pages, defaultOrigin } from './site-data.mjs';
 import { compilePages, robotsText, sitemapText } from './build-site.mjs';
 import { notFound } from './render-pages.mjs';
@@ -12,16 +13,17 @@ import { notFound } from './render-pages.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT || 8765);
 const trial = createTrialHandler();
+const booking = createBookingHandler();
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.webmanifest':'application/manifest+json', '.json':'application/json', '.webp':'image/webp', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.vtt':'text/vtt; charset=utf-8', '.xml':'application/xml', '.txt':'text/plain' };
 const redirects = { '/services':'/#schedule', '/about':'/#coaches', '/contact':'/#trial' };
 
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://127.0.0.1:${port}`);
-    if (url.pathname === '/api/trial') {
+    if (['/api/trial','/api/booking'].includes(url.pathname)) {
       const request = new Request(url, { method:req.method, headers:req.headers,
         ...(req.method === 'GET' || req.method === 'HEAD' ? {} : { body:Readable.toWeb(req), duplex:'half' }) });
-      const response = await trial(request);
+      const response = await (url.pathname==='/api/booking'?booking:trial)(request);
       res.writeHead(response.status, Object.fromEntries(response.headers));
       res.end(Buffer.from(await response.arrayBuffer()));
       return;
