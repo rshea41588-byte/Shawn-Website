@@ -22,7 +22,7 @@ export async function compilePages({origin=defaultOrigin,publicRelease=false}={}
     let html=page.source?await readFile(join(root,page.source),'utf8'):renderPage(page,origin);
     if (page.source) html=syncNavigation(html,page.route);
     if (page.route==='/shawn-melanson') html=html.replace(/<!-- PROFILE CATALOG START -->[\s\S]*?<!-- PROFILE CATALOG END -->/,`<!-- PROFILE CATALOG START -->\n${renderProfileCatalog()}\n<!-- PROFILE CATALOG END -->`);
-    if (page.route==='/') for (const kind of ['adult','kids','open']) {
+    if (page.route==='/') for (const kind of ['adult','kids']) {
       const expression=new RegExp(`(<div[^>]*id="panel-${kind}"[^>]*>)[\\s\\S]*?(?=\\n          <\\/div>)`);
       html=html.replace(expression,`$1\n${scheduleRows(kind,true)}`);
     }

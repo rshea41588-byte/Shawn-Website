@@ -1,21 +1,16 @@
 {
   "adult": [
     ["Monday", [["10 AM to 12 PM", "No gi class & rolling"], ["6 to 8 PM", "No gi class & rolling"]]],
-    ["Tuesday", [["6 to 7 PM", "No gi class"]]],
-    ["Wednesday", [["10 AM to 12 PM", "No gi class & rolling"], ["6 to 8 PM", "No gi class & rolling"]]],
-    ["Thursday", [["6 to 7 PM", "No gi class"]]],
+    ["Tuesday", [["12 to 2 PM", "Open mat & competition training"], ["6 to 7 PM", "No gi class"], ["7 to 8 PM", "Rolling & competition training"]]],
+    ["Wednesday", [["10 AM to 12 PM", "No gi class & rolling"], ["5:15 to 6 PM", "Wrestling class"], ["6 to 8 PM", "No gi class & rolling"]]],
+    ["Thursday", [["12 to 2 PM", "Open mat & competition training"], ["6 to 7 PM", "No gi class"], ["7 to 8 PM", "Rolling & competition training"]]],
     ["Friday", [["10 AM to 12 PM", "No gi class & rolling"], ["6 to 8 PM", "No gi class & rolling"]]],
-    ["Saturday", [["4 to 6 PM", "No gi class & rolling"]]]
+    ["Saturday", [["4 to 6 PM", "No gi class & rolling"]]],
+    ["Sunday", [["10 AM to 12 PM", "Open mat & competition training"]]]
   ],
   "kids": [
     ["Monday", [["4:30 to 5:30 PM", "Kids no gi class"]]],
     ["Tuesday", [["4:30 to 5:30 PM", "Kids no gi class"]]],
     ["Thursday", [["4:30 to 5:30 PM", "Kids no gi class"]]]
-  ],
-  "open": [
-    ["Sunday", [["10 AM to 12 PM", "Open mat & competition training"]]],
-    ["Tuesday", [["12 to 2 PM", "Open mat & competition training"], ["7 to 8 PM", "Rolling & competition training"]]],
-    ["Wednesday", [["5:15 to 6 PM", "Wrestling class"]]],
-    ["Thursday", [["12 to 2 PM", "Open mat & competition training"], ["7 to 8 PM", "Rolling & competition training"]]]
   ]
 }
