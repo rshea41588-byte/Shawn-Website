@@ -1,2327 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Precision Jiu Jitsu | Hudson, NH</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Barlow+Condensed:wght@400;600;700&display=swap"
-    rel="stylesheet" />
-  <style>
-    :root {
-      --navy: #0a0e1a;
-      --navy-mid: #111827;
-      --navy-light: #1a2235;
-      --navy-border: #1e2d45;
-      --white: #ffffff;
-      --off-white: #e8edf5;
-      --muted: #8a9ab5;
-      --accent: #c8a96e;
-      --accent-light: #e0c88a;
-      --accent-dim: rgba(200, 169, 110, 0.15);
-      --red: #c0392b;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--navy);
-      color: var(--white);
-      font-family: 'Barlow', sans-serif;
-      font-weight: 400;
-      overflow-x: hidden;
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 0 40px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
-    }
-
-    nav.scrolled {
-      background: rgba(10, 14, 26, 0.95);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 1px 0 var(--navy-border);
-    }
-
-    .nav-logo {
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-logo img {
-      height: 52px;
-      width: auto;
-      display: block;
-      border-radius: 50%;
-      object-fit: contain;
-    }
-
-    .nav-logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-
-    .nav-logo-text span {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.1em;
-      color: var(--white);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--off-white);
-      text-decoration: none;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    .nav-cta {
-      background: var(--accent) !important;
-      color: #0a0e1a !important;
-      padding: 9px 22px;
-      border-radius: 2px;
-      border: 2px solid var(--accent) !important;
-      font-weight: 800 !important;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 18px rgba(200, 169, 110, 0.5) !important;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s !important;
-    }
-
-    .nav-cta:hover {
-      background: var(--accent-light) !important;
-      color: #0a0e1a !important;
-      border-color: var(--accent-light) !important;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 30px rgba(200, 169, 110, 0.8), 0 0 50px rgba(200, 169, 110, 0.4) !important;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-      background: none;
-      border: none;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 26px;
-      height: 2px;
-      background: var(--white);
-      transition: all 0.3s;
-    }
-
-    .hamburger.open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 72px;
-      left: 0;
-      right: 0;
-      background: rgba(10, 14, 26, 0.98);
-      backdrop-filter: blur(16px);
-      padding: 30px 40px 40px;
-      flex-direction: column;
-      gap: 0;
-      z-index: 999;
-      border-bottom: 1px solid var(--navy-border);
-    }
-
-    .mobile-menu.open {
-      display: flex;
-    }
-
-    .mobile-menu a {
-      color: var(--off-white);
-      text-decoration: none;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--navy-border);
-      transition: color 0.2s;
-    }
-
-    .mobile-menu a:last-child {
-      border-bottom: none;
-    }
-
-    .mobile-menu a:hover {
-      color: var(--accent);
-    }
-
-    /* ─── HERO ─── */
-    #hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      min-height: 600px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .video-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .video-bg video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 177.78vh;
-      height: 100vh;
-      min-width: 100%;
-      min-height: 56.25vw;
-      transform: translate(-50%, -50%);
-      border: none;
-      object-fit: cover;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom,
-          rgba(10, 14, 26, 0.55) 0%,
-          rgba(10, 14, 26, 0.4) 40%,
-          rgba(10, 14, 26, 0.75) 80%,
-          rgba(10, 14, 26, 1) 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 0 20px;
-      max-width: 900px;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.3s forwards;
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.5rem, 10vw, 8rem);
-      line-height: 0.95;
-      letter-spacing: 0.03em;
-      color: var(--white);
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.5s forwards;
-    }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      font-weight: 300;
-      color: var(--off-white);
-      margin-bottom: 40px;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.7s forwards;
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.9s forwards;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #0a0e1a;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 20px rgba(200, 169, 110, 0.5);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 16px 36px;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 36px rgba(200, 169, 110, 0.8), 0 0 60px rgba(200, 169, 110, 0.4);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--white);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 15px 36px;
-      text-decoration: none;
-      border-radius: 2px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      transition: border-color 0.2s, color 0.2s, transform 0.2s;
-      display: inline-block;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 1s 1.5s forwards;
-    }
-
-    .hero-scroll span {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-      animation: scrollPulse 1.8s infinite;
-    }
-
-    /* ─── SOCIAL PROOF BAR ─── */
-    .proof-bar {
-      background: var(--accent);
-      padding: 14px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      flex-wrap: wrap;
-      overflow: hidden;
-    }
-
-    .proof-item {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--navy);
-      padding: 6px 28px;
-      white-space: nowrap;
-    }
-
-    .proof-divider {
-      width: 4px;
-      height: 4px;
-      background: var(--navy);
-      border-radius: 50%;
-      opacity: 0.4;
-      flex-shrink: 0;
-    }
-
-    /* ─── SECTION SHARED ─── */
-    section {
-      padding: 100px 40px;
-    }
-
-    .section-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      letter-spacing: 0.04em;
-      line-height: 1;
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-
-    .section-sub {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 580px;
-    }
-
-    .container {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    /* ─── FEATURES ─── */
-    #features {
-      background: var(--navy-mid);
-      padding: 80px 40px;
-      border-top: 1px solid var(--navy-border);
-      border-bottom: 1px solid var(--navy-border);
-    }
-
-    .features-grid {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-    }
-
-    .feature-card {
-      background: var(--navy-light);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform 0.3s;
-      transform-origin: left;
-    }
-
-    .feature-card:hover {
-      background: #1f2d42;
-    }
-
-    .feature-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .feature-icon {
-      display: none;
-    }
-
-    .feature-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-
-    .feature-text {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ─── CREDENTIALS ─── */
-    #credentials {
-      background: var(--navy);
-      padding: 70px 40px;
-      border-bottom: 1px solid var(--navy-border);
-    }
-
-    .cred-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 60px;
-      flex-wrap: wrap;
-    }
-
-    .cred-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .cred-divider-v {
-      width: 1px;
-      height: 36px;
-      background: var(--navy-border);
-      flex-shrink: 0;
-    }
-
-    .cred-items {
-      display: flex;
-      align-items: center;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-
-    .cred-item {
-      text-align: center;
-    }
-
-    .cred-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem;
-      color: var(--accent);
-      line-height: 1;
-      display: block;
-    }
-
-    .cred-desc {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-top: 4px;
-    }
-
-    .cred-badge {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      padding: 12px 20px;
-      border-radius: 2px;
-    }
-
-    .cred-badge-icon {
-      display: none;
-    }
-
-    .cred-badge-text {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      line-height: 1.4;
-    }
-
-    /* ─── ABOUT / INSTRUCTORS ─── */
-    #about {
-      background: var(--navy-mid);
-    }
-
-    .about-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    .about-header {
-      margin-bottom: 60px;
-    }
-
-    .instructors-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px;
-    }
-
-    .instructor-card {
-      background: var(--navy-light);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .instructor-img {
-      width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      object-position: top center;
-      filter: grayscale(20%) contrast(1.05);
-      transition: transform 0.6s, filter 0.4s;
-      display: block;
-    }
-
-    .instructor-card:hover .instructor-img {
-      transform: scale(1.03);
-      filter: grayscale(0%) contrast(1.1);
-    }
-
-    .instructor-img-placeholder {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: linear-gradient(135deg, var(--navy-light), #1a2c45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 5rem;
-      color: var(--navy-border);
-    }
-
-    .instructor-body {
-      padding: 36px;
-      flex: 1;
-      position: relative;
-    }
-
-    .instructor-belt {
-      position: absolute;
-      top: -12px;
-      left: 36px;
-      background: #1a1a1a;
-      color: var(--white);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 1px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .instructor-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.05em;
-      color: var(--white);
-      margin-bottom: 6px;
-      margin-top: 8px;
-    }
-
-    .instructor-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-    }
-
-    .instructor-bio {
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .instructor-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid var(--navy-border);
-      flex-wrap: wrap;
-    }
-
-    .istat {
-      text-align: left;
-    }
-
-    .istat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      color: var(--accent);
-      display: block;
-      line-height: 1;
-    }
-
-    .istat-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ─── SCHEDULE ─── */
-    #schedule {
-      background: var(--navy);
-    }
-
-    .schedule-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    .schedule-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 50px;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .schedule-note {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    .schedule-note a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .schedule-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
-    }
-
-    .day-col {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .day-header {
-      background: var(--navy-light);
-      padding: 16px 10px;
-      text-align: center;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border-top: 2px solid var(--accent);
-    }
-
-    .class-slot {
-      background: var(--navy-light);
-      padding: 16px 12px;
-      text-align: center;
-      flex: 1;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      transition: background 0.2s;
-      cursor: default;
-    }
-
-    .class-slot:hover {
-      background: #1f2d42;
-    }
-
-    .class-slot.empty {
-      opacity: 0.3;
-    }
-
-    .slot-time {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-    }
-
-    .slot-name {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--white);
-      line-height: 1.3;
-      text-align: center;
-    }
-
-    .slot-level {
-      font-size: 0.7rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    /* ─── GALLERY ─── */
-    #gallery {
-      background: var(--navy-mid);
-      padding: 100px 0;
-    }
-
-    .gallery-header {
-      max-width: 1160px;
-      margin: 0 auto 50px;
-      padding: 0 40px;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: auto;
-      gap: 3px;
-    }
-
-    .gallery-item {
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .gallery-item:nth-child(1) {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    .gallery-item:nth-child(4) {
-      grid-column: span 2;
-    }
-
-    .gallery-item:nth-child(6) {
-      grid-column: span 2;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      min-height: 200px;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(15%) contrast(1.05);
-      transition: transform 0.5s, filter 0.3s;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.05);
-      filter: grayscale(0%) contrast(1.1);
-    }
-
-    .gallery-item::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 14, 26, 0.3);
-      transition: opacity 0.3s;
-    }
-
-    .gallery-item:hover::after {
-      opacity: 0;
-    }
-
-    /* ─── VIDEO TESTIMONIALS ─── */
-    .video-testimonials-header {
-      max-width: 1160px;
-      margin: 70px auto 40px;
-      padding: 0 40px;
-    }
-
-    .video-testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 1160px;
-      margin: 0 auto 80px;
-      padding: 0 40px;
-    }
-
-    .video-testimonial-item {
-      border-radius: 4px;
-      overflow: hidden;
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      aspect-ratio: 9 / 16;
-    }
-
-    .video-testimonial-item video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    /* ─── REVIEWS ─── */
-    #reviews {
-      background: var(--navy);
-    }
-
-    .reviews-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    .reviews-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 50px;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .reviews-summary {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .reviews-score {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .reviews-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stars {
-      color: var(--accent);
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-    }
-
-    .reviews-count {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3px;
-    }
-
-    .review-card {
-      background: var(--navy-light);
-      padding: 36px;
-      position: relative;
-      transition: background 0.2s;
-    }
-
-    .review-card:hover {
-      background: #1f2d42;
-    }
-
-    .review-quote {
-      font-size: 2.5rem;
-      color: var(--accent);
-      font-family: Georgia, serif;
-      line-height: 1;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
-
-    .review-text {
-      font-size: 0.97rem;
-      font-weight: 300;
-      color: var(--off-white);
-      line-height: 1.75;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-
-    .review-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .reviewer-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--white);
-    }
-
-    .review-stars {
-      color: var(--accent);
-      font-size: 0.85rem;
-    }
-
-    .google-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 40px;
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      padding: 10px 20px;
-      border-radius: 2px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .google-badge:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ─── FAQ ─── */
-    #faq {
-      background: var(--navy-mid);
-      border-top: 1px solid var(--navy-border);
-      border-bottom: 1px solid var(--navy-border);
-    }
-
-    .faq-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .faq-header {
-      margin-bottom: 50px;
-    }
-
-    .faq-item {
-      border-bottom: 1px solid var(--navy-border);
-    }
-
-    .faq-question {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .faq-q-text {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--white);
-      transition: color 0.2s;
-    }
-
-    .faq-question:hover .faq-q-text {
-      color: var(--accent);
-    }
-
-    .faq-icon {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-      position: relative;
-      border: 1px solid var(--navy-border);
-      border-radius: 50%;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .faq-icon::before,
-    .faq-icon::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      background: var(--muted);
-      transition: transform 0.3s, background 0.2s;
-    }
-
-    .faq-icon::before {
-      width: 10px;
-      height: 1.5px;
-      transform: translate(-50%, -50%);
-    }
-
-    .faq-icon::after {
-      width: 1.5px;
-      height: 10px;
-      transform: translate(-50%, -50%);
-    }
-
-    .faq-item.open .faq-icon {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .faq-item.open .faq-icon::before {
-      background: var(--navy);
-    }
-
-    .faq-item.open .faq-icon::after {
-      background: var(--navy);
-      transform: translate(-50%, -50%) rotate(90deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.3s;
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 300px;
-    }
-
-    .faq-answer-inner {
-      padding-bottom: 24px;
-      font-size: 0.97rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    /* ─── CTA ─── */
-    #trial {
-      background: var(--navy);
-      position: relative;
-      overflow: hidden;
-    }
-
-    #trial::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(200, 169, 110, 0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .trial-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .trial-left .section-sub {
-      margin-bottom: 30px;
-    }
-
-    .trial-perks {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 30px;
-    }
-
-    .trial-perks li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-      color: var(--off-white);
-      font-weight: 300;
-    }
-
-    .trial-perks li::before {
-      content: '✓';
-      width: 22px;
-      height: 22px;
-      background: var(--accent-dim);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-size: 0.75rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border-radius: 1px;
-    }
-
-    .trial-form {
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      padding: 44px;
-    }
-
-    .trial-form h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.05em;
-      color: var(--white);
-      margin-bottom: 28px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      background: var(--navy);
-      border: 1px solid var(--navy-border);
-      color: var(--white);
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.95rem;
-      padding: 13px 16px;
-      border-radius: 2px;
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--accent);
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--muted);
-    }
-
-    .form-group select {
-      cursor: pointer;
-    }
-
-    .form-group select option {
-      background: var(--navy-mid);
-    }
-
-    .form-submit {
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .form-note {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 14px;
-      font-weight: 300;
-    }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: #060910;
-      border-top: 1px solid var(--navy-border);
-      padding: 60px 40px 30px;
-    }
-
-    .footer-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    .footer-top {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 60px;
-      padding-bottom: 50px;
-      border-bottom: 1px solid var(--navy-border);
-      margin-bottom: 30px;
-    }
-
-    .footer-brand .nav-logo {
-      font-size: 1.8rem;
-      margin-bottom: 14px;
-      display: inline-flex;
-    }
-
-    .footer-tagline {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 22px;
-      max-width: 300px;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 10px;
-    }
-
-    .social-link {
-      width: 36px;
-      height: 36px;
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 700;
-      font-family: 'Barlow Condensed', sans-serif;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      border-radius: 2px;
-    }
-
-    .social-link:hover {
-      background: var(--accent);
-      color: var(--navy);
-      border-color: var(--accent);
-    }
-
-    .footer-col h4 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-col ul a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 300;
-      transition: color 0.2s;
-    }
-
-    .footer-col ul a:hover {
-      color: var(--white);
-    }
-
-    .footer-contact li {
-      display: flex;
-      gap: 10px;
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .footer-contact li span:first-child {
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .footer-copy {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    .footer-legal {
-      display: flex;
-      gap: 24px;
-    }
-
-    .footer-legal a {
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-legal a:hover {
-      color: var(--white);
-    }
-
-    /* ─── MOBILE CTA ─── */
-    .mobile-cta-bar {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 900;
-      padding: 12px 20px;
-      background: var(--navy);
-      border-top: 1px solid var(--navy-border);
-    }
-
-    .mobile-cta-bar a {
-      display: block;
-      text-align: center;
-      background: var(--accent);
-      color: var(--navy);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 14px;
-      text-decoration: none;
-      border-radius: 2px;
-    }
-
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Train no gi jiu jitsu in Hudson, New Hampshire. Adult and kids classes, open mats, and competition training with black belt coaches. Your first class is free.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0c121b">
+  <meta property="og:title" content="No Gi Jiu Jitsu in Hudson, NH | Precision Jiu Jitsu">
+  <meta property="og:description" content="Adult and kids classes, competition training, and a team in your corner. Train with Precision Jiu Jitsu in Hudson, New Hampshire. Your first class is free.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Precision Jiu Jitsu">
+  <meta property="og:url" content="https://precisionjiujitsunh.com/">
+  <meta property="og:image" content="https://precisionjiujitsunh.com/site-assets/social-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Precision Jiu Jitsu logo and training in Hudson, New Hampshire">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="No Gi Jiu Jitsu in Hudson, NH | Precision Jiu Jitsu">
+  <meta name="twitter:description" content="Adult and kids classes, open mats, and competition training. Your first class is free.">
+  <meta name="twitter:image" content="https://precisionjiujitsunh.com/site-assets/social-preview.jpg">
+  <meta name="twitter:image:alt" content="Precision Jiu Jitsu logo and training in Hudson, New Hampshire">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="describedby" href="/llms.txt" type="text/plain">
+  <link rel="canonical" href="https://precisionjiujitsunh.com/">
+  <title>No Gi Jiu Jitsu in Hudson, NH | Precision Jiu Jitsu</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SportsActivityLocation",
+        "@id": "https://precisionjiujitsunh.com/#academy",
+        "name": "Precision Jiu Jitsu",
+        "url": "https://precisionjiujitsunh.com/",
+        "description": "No gi jiu jitsu academy in Hudson, New Hampshire, offering adult and kids classes, open mats, and competition training.",
+        "telephone": "+16034593610",
+        "email": "precisionjiujitsu29@gmail.com",
+        "logo": "https://precisionjiujitsunh.com/review-assets/precision-logo-circle.svg",
+        "employee": { "@id": "https://precisionjiujitsunh.com/shawn-melanson#person" },
+        "image": "https://precisionjiujitsunh.com/site-assets/social-preview.jpg",
+        "hasMap": "https://maps.app.goo.gl/SAXEqSEeRz2kBamw6",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "14 Brady Drive, Unit 2",
+          "addressLocality": "Hudson",
+          "addressRegion": "NH",
+          "postalCode": "03051",
+          "addressCountry": "US"
+        },
+        "sameAs": [
+          "https://www.instagram.com/precision_jiujitsu/",
+          "https://www.facebook.com/p/Precision-Jiu-Jitsu-100095051498298/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://precisionjiujitsunh.com/#website",
+        "url": "https://precisionjiujitsunh.com/",
+        "name": "Precision Jiu Jitsu",
+        "publisher": { "@id": "https://precisionjiujitsunh.com/#academy" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://precisionjiujitsunh.com/#webpage",
+        "url": "https://precisionjiujitsunh.com/",
+        "name": "No Gi Jiu Jitsu in Hudson, New Hampshire",
+        "isPartOf": { "@id": "https://precisionjiujitsunh.com/#website" },
+        "mainEntity": { "@id": "https://precisionjiujitsunh.com/#academy" },
+        "inLanguage": "en-US"
       }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes scrollPulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scaleY(1);
-      }
-
-      50% {
-        opacity: 0.4;
-        transform: scaleY(0.6);
-      }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 1024px) {
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .instructors-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .schedule-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .reviews-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .trial-inner {
-        grid-template-columns: 1fr;
-        gap: 50px;
-      }
-
-      .footer-top {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .gallery-item:nth-child(1) {
-        grid-column: span 1;
-        grid-row: span 1;
-      }
-
-      .gallery-item:nth-child(4) {
-        grid-column: span 1;
-      }
-
-      .gallery-item:nth-child(6) {
-        grid-column: span 1;
-      }
-
-      .video-testimonials-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .cred-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-      }
-
-      .cred-divider-v {
-        display: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      section {
-        padding: 70px 20px;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cred-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 24px;
-      }
-
-      .cred-items {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        width: 100%;
-      }
-
-      .cred-item {
-        text-align: left;
-      }
-
-      .cred-badge {
-        width: 100%;
-      }
-
-      .schedule-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .footer-top {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
-
-      .proof-bar {
-        padding: 10px 20px;
-      }
-
-      .proof-item {
-        padding: 4px 14px;
-        font-size: 0.75rem;
-      }
-
-      .mobile-cta-bar {
-        display: block;
-      }
-
-      footer {
-        padding-bottom: 80px;
-      }
-
-      .trial-form {
-        padding: 28px 20px;
-      }
-
-      .cred-items {
-        gap: 28px;
-      }
-    }
-  </style>
+    ]
+  }
+  </script>
+  <link rel="icon" href="review-assets/precision-logo-circle.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="review-assets/video-5-poster.jpg" fetchpriority="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-assets/site.css">
+  <script src="site-assets/navigation.js" defer></script>
+  <script src="/site-assets/measurement.js" defer></script>
 </head>
-
-<body>
-
-  <!-- NAV -->
-  <nav id="navbar">
-    <a href="#hero" class="nav-logo">
-      <img src="Logo/Logo.png" alt="Precision BJJ Logo" />
-      <div class="nav-logo-text">
-        <span>PRECISION BJJ</span>
+<body class="home-page">
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="phone" viewBox="0 0 24 24"><path d="m7 3 3 5-3 3c2 3 3 4 6 6l3-3 5 3c-1 6-5 5-10 2S3 11 3 7c0-3 2-4 4-4Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m3 6 9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  </svg>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-inner wrap"><a class="brand" href="/" aria-label="Precision Jiu Jitsu home"><img src="/review-assets/precision-logo-circle.svg" alt="Precision Jiu Jitsu skull logo" width="64" height="64"><span class="brand-name">Precision Jiu Jitsu<small>Hudson, New Hampshire</small></span></a><nav class="desktop-nav" aria-label="Main navigation"><a href="/#training">Training</a><details class="coach-dropdown"><summary>Coaches<svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></summary><div class="coach-dropdown-panel"><a href="/shawn-melanson">Shawn Melanson</a><a href="/#coaches">Meet all coaches</a></div></details><a href="/#schedule">Schedule</a><a href="/instructionals">Learn online</a><a class="button" href="/#trial" >Try a free class<span aria-hidden="true">↗</span></a></nav><button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="/adult-no-gi-jiu-jitsu">Adult no gi classes</a><a href="/kids-jiu-jitsu">Kids ages 5 and up</a><a href="/first-class">Your first class</a><details class="coach-dropdown"><summary>Coaches<svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></summary><div class="coach-dropdown-panel"><a href="/shawn-melanson">Shawn Melanson</a><a href="/#coaches">Meet all coaches</a></div></details><a href="/#schedule">Class schedule</a><a href="/instructionals">Learn online</a><a href="/#stories">Member stories</a><a class="button" href="/#trial" >Try a free class<span aria-hidden="true">↗</span></a></nav></header>
+  <main id="main">
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true">
+        <video id="hero-video" src="Video/vlc-record-2026-04-07-14h27m30s-videoplayback.mp4-.mp4" poster="review-assets/video-5-poster.jpg" autoplay muted loop playsinline preload="metadata" tabindex="-1" width="854" height="480"></video>
       </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#about">Instructors</a></li>
-      <li><a href="#schedule">Schedule</a></li>
-      <li><a href="#reviews">Reviews</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#trial" class="nav-cta">Free Trial</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about" onclick="closeMobile()">Instructors</a>
-    <a href="#schedule" onclick="closeMobile()">Schedule</a>
-    <a href="#gallery" onclick="closeMobile()">Gallery</a>
-    <a href="#reviews" onclick="closeMobile()">Reviews</a>
-    <a href="#faq" onclick="closeMobile()">FAQ</a>
-    <a href="#trial" onclick="closeMobile()">Free Trial →</a>
-  </div>
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="video-bg" id="videoBg">
-      <video id="ytPlayer" src="Video\vlc-record-2026-04-07-14h27m30s-videoplayback.mp4-.mp4" autoplay muted loop
-        playsinline>
-      </video>
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Hudson, NH · No-Gi Jiu Jitsu</p>
-      <h1 class="hero-title">Train With<br /><em>The Best</em></h1>
-      <p class="hero-sub">Hudson's only no-gi specific gym. High-level instruction from a world-class competitor and BJJ
-        Fanatics instructor with 200k+ followers.</p>
-      <div class="hero-btns">
-        <a href="#trial" class="btn-primary">Claim Free Trial</a>
-        <a href="#about" class="btn-secondary">Meet the Coaches</a>
-      </div>
-    </div>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
-    </div>
-  </section>
-
-  <!-- SOCIAL PROOF BAR -->
-  <div class="proof-bar">
-    <div class="proof-item">200k+ Instagram Followers</div>
-    <div class="proof-divider"></div>
-    <div class="proof-item">BJJ Fanatics Instructor</div>
-    <div class="proof-divider"></div>
-    <div class="proof-item">50+ 5-Star Google Reviews</div>
-    <div class="proof-divider"></div>
-    <div class="proof-item">Hudson's #1 No-Gi Gym</div>
-  </div>
-
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-title">No-Gi Specific</div>
-        <p class="feature-text">The only gym in Hudson focused exclusively on no-gi grappling. Every technique, drill,
-          and round is built around modern no-gi competition.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-title">Competition-Tested</div>
-        <p class="feature-text">Techniques forged in high-level competition. Learn what actually works against elite
-          opponents — not just in the gym.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-title">All Skill Levels</div>
-        <p class="feature-text">Whether you've never grappled a day in your life or you're chasing a podium finish,
-          there's a place for you on our mats.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-title">Free Trial Class</div>
-        <p class="feature-text">Not sure if it's right for you? Come try a class on us. No obligation, no pressure —
-          just show up and roll.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CREDENTIALS -->
-  <section id="credentials">
-    <div class="cred-inner">
-      <span class="cred-label">Shawn Melanson's Credentials</span>
-      <div class="cred-divider-v"></div>
-      <div class="cred-items">
-        <div class="cred-item reveal">
-          <span class="cred-num">200K+</span>
-          <span class="cred-desc">Instagram Followers</span>
-        </div>
-        <div class="cred-item reveal">
-          <span class="cred-num">3–1</span>
-          <span class="cred-desc">MMA Record</span>
-        </div>
-        <div class="cred-item reveal">
-          <span class="cred-num">#2</span>
-          <span class="cred-desc">New England Featherweight</span>
-        </div>
-        <div class="cred-item reveal">
-          <span class="cred-num">10+</span>
-          <span class="cred-desc">Years Competing</span>
-        </div>
-      </div>
-      <div class="cred-badge reveal">
-        <span class="cred-badge-text">BJJ Fanatics<br />Featured Instructor</span>
-      </div>
-      <div class="cred-badge reveal">
-        <span class="cred-badge-text">Black Belt<br />No-Gi Specialist</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- INSTRUCTORS -->
-  <section id="about">
-    <div class="about-inner">
-      <div class="about-header reveal">
-        <span class="section-label">The Coaches</span>
-        <h2 class="section-title">World-Class Instruction</h2>
-        <p class="section-sub">Train under coaches who compete at the highest levels. Real experience. Real results.</p>
-      </div>
-      <div class="instructors-grid">
-        <div class="instructor-card reveal">
-          <img src="Gym pics/658365641_18573039895017882_7293280231954007939_n.webp" alt="Shawn Melanson"
-            class="instructor-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="instructor-img-placeholder" style="display:none;">🥋</div>
-          <div class="instructor-body">
-            <div class="instructor-belt">Black Belt</div>
-            <div class="instructor-name">Shawn Melanson</div>
-            <div class="instructor-title">Head Instructor & Co-Founder</div>
-            <p class="instructor-bio">Shawn's journey into Jiu Jitsu began at an early age, learning techniques from his
-              older cousins. In 2011 he began training full-time in MMA, earning a 3–1 record and becoming the #2 ranked
-              Featherweight in New England. By 2014, he switched his focus solely to Jiu Jitsu, winning multiple super
-              fights and competitions. Today Shawn is one of the top black belts in the region, a featured instructor on
-              BJJ Fanatics, and one of the most followed jiu jitsu athletes on the internet with over 200,000 followers.
-            </p>
-            <div class="instructor-stats">
-              <div class="istat">
-                <span class="istat-num">200K+</span>
-                <span class="istat-label">IG Followers</span>
-              </div>
-              <div class="istat">
-                <span class="istat-num">3–1</span>
-                <span class="istat-label">MMA Record</span>
-              </div>
-              <div class="istat">
-                <span class="istat-num">BJJ</span>
-                <span class="istat-label">Fanatics Instructor</span>
-              </div>
+      <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <p class="kicker">Train with the best</p>
+            <h1 id="hero-title">No Gi Jiu Jitsu <span class="hero-location">Hudson, New Hampshire</span></h1>
+            <p class="hero-description">Hudson's home for no gi jiu jitsu. High level instruction from black belt competitor and BJJ Fanatics instructor Shawn Melanson, followed by 276K+ on Instagram.</p>
+            <div class="hero-actions">
+              <a class="button" href="#trial">Try a free class<svg aria-hidden="true"><use href="#arrow"/></svg></a>
+              <a class="button outline" href="#coaches">Meet the coaches</a>
             </div>
+            <p class="hero-small"><svg aria-hidden="true"><use href="#check"/></svg>No experience needed. Your first class is on us.</p>
+          </div>
+        <div class="hero-bottom"><span>Black belt instruction</span><span>Beginners welcome</span><span>Competition tested</span><a href="#training">Discover Precision ↓</a></div>
+      </div>
+    </section>
+    <div class="motto" aria-label="Our motto: Iron sharpens iron"><span>✦</span>Iron sharpens iron<span>✦</span></div>
+
+    <section class="section training" id="training" aria-labelledby="training-title">
+      <div class="wrap">
+        <div class="training-grid">
+          <div>
+            <p class="kicker">Find your place on the mats</p>
+            <h2 id="training-title">New to the sport?<br>You're in the<br>right room.</h2>
+            <p class="section-intro">You don't have to be a fighter to train here. Start with the basics, build confidence, and keep finding out what you're capable of.</p>
+            <figure class="training-image"><img src="site-assets/coaching-720.webp" srcset="site-assets/coaching-360.webp 360w, site-assets/coaching-720.webp 720w, site-assets/coaching-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Shawn demonstrating a grappling position with a student" width="1080" height="1080" loading="lazy"><figcaption><span>Real instruction. Personal attention.</span><span>Precision Jiu Jitsu</span></figcaption></figure>
+          </div>
+          <div class="training-list">
+            <article class="training-item"><span class="num">01</span><div><h3>No gi jiu jitsu</h3><p>Learn takedowns, control, escapes, and submissions without the traditional gi. Our classes bring together technical instruction, drilling, and time on the mats. All experience levels are welcome.</p><a href="/adult-no-gi-jiu-jitsu">Explore adult classes <span aria-hidden="true">↗</span></a></div></article>
+            <article class="training-item"><span class="num">02</span><div><h3>Kids on the mats</h3><p>Kids classes welcome ages 5 and up. We train Monday, Tuesday, and Thursday afternoons. Tell us your child's age and experience so a coach can help arrange your first visit.</p><a href="/kids-jiu-jitsu">Explore kids classes <span aria-hidden="true">↗</span></a></div></article>
+            <article class="training-item"><span class="num">03</span><div><h3>Competition training &amp; open mats</h3><p>Bring your experience and build on it. Open mats, competition training, and a weekly wrestling session give you room to test your technique and sharpen your game. All affiliations are welcome.</p><a href="#schedule" data-choose-schedule="open">Find your next session <span aria-hidden="true">↗</span></a></div></article>
           </div>
         </div>
-        <div class="instructor-card reveal">
-          <img src="Gym pics/Alex.webp" alt="Alex" class="instructor-img"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="instructor-img-placeholder" style="display:none;">🥋</div>
-          <div class="instructor-body">
-            <div class="instructor-belt">Black Belt</div>
-            <div class="instructor-name">Alex</div>
-            <div class="instructor-title">Instructor & BJJ Fanatics Staff</div>
-            <p class="instructor-bio">Alex has been practicing Jiu Jitsu for over four years and earned his black belt
-              under Shawn Melanson. He is one of the most active, driven, and successful competitors on the local scene.
-              As an employee of BJJ Fanatics, Alex has the unique opportunity to train alongside and learn from the top
-              Jiu Jitsu athletes in the world. His combination of competition experience and access to elite-level
-              training makes him a top-tier instructor.</p>
-            <div class="instructor-stats">
-              <div class="istat">
-                <span class="istat-num">4+</span>
-                <span class="istat-label">Years Training</span>
-              </div>
-              <div class="istat">
-                <span class="istat-num">BJJ</span>
-                <span class="istat-label">Fanatics Staff</span>
-              </div>
-              <div class="istat">
-                <span class="istat-num">BB</span>
-                <span class="istat-label">Under Melanson</span>
-              </div>
-            </div>
-          </div>
+        <div class="first-class"><h3>Your first class,<br>without the guesswork.</h3><ol><li><b><span>01</span>Reach out first</b><p>Tell us a little about yourself. We'll help you pick a class.</p></li><li><b><span>02</span>Come comfortable</b><p>Wear a fitted athletic shirt and shorts without pockets or zippers.</p></li><li><b><span>03</span>Meet your team</b><p>Meet the coach, learn the basics, and take it one class at a time.</p></li></ol></div>
+      </div>
+    </section>
+
+    <section class="section coaches" id="coaches" aria-labelledby="coaches-title">
+      <div class="wrap">
+        <div class="section-top"><div><p class="kicker">The people in your corner</p><h2 id="coaches-title">Learn it from<br>people who live it.</h2></div><p class="section-intro">Coaches with real competition experience and a shared focus: helping you get better.</p></div>
+        <div class="coach-grid">
+          <article class="coach shawn"><a class="coach-image" href="shawn-melanson.html" aria-label="Meet Shawn Melanson"><img src="site-assets/shawn-melanson-720.webp" srcset="site-assets/shawn-melanson-360.webp 360w, site-assets/shawn-melanson-720.webp 720w, site-assets/shawn-melanson-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Head instructor Shawn Melanson" width="1080" height="1080" loading="lazy"></a><div class="coach-body"><p class="coach-role">Head instructor · Co founder</p><h3><a class="coach-name-link" href="shawn-melanson.html">Shawn Melanson</a></h3><p>Shawn began training full time in MMA in 2011 before turning his focus to jiu jitsu in 2014. A black belt, active competitor, and BJJ Fanatics instructor, he brings years of experience to the details that make your game work.</p><a class="coach-proof" href="shawn-melanson.html">Meet Shawn. His story, competition &amp; instructionals →</a><a class="coach-proof" href="/instructionals">Explore all seven online courses →</a><div class="coach-bottom"><span class="belt">Black belt · No gi specialist</span><a href="https://www.instagram.com/shawnmelanson160/" target="_blank" rel="noopener noreferrer">Follow Shawn ↗</a></div></div></article>
+          <article class="coach alex"><div class="coach-image"><img src="site-assets/alex-west-720.webp" srcset="site-assets/alex-west-360.webp 360w, site-assets/alex-west-720.webp 720w, site-assets/alex-west-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Instructor Alex West at a grappling competition" width="1080" height="720" loading="lazy"></div><div class="coach-body"><p class="coach-role">Instructor · BJJ Fanatics staff</p><h3>Alex West</h3><p>A black belt under Shawn Melanson, Alex brings an active competition background to his coaching. His work at BJJ Fanatics gives him the opportunity to learn from leading athletes and bring that knowledge back to the room.</p><div class="coach-bottom"><span class="belt">Black belt under Shawn Melanson</span></div></div></article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SCHEDULE -->
-  <section id="schedule">
-    <div class="schedule-inner">
-      <div class="schedule-header">
+    <section class="section schedule" id="schedule" aria-labelledby="schedule-title">
+      <div class="wrap schedule-layout">
+        <div class="schedule-aside"><p class="kicker">Make time for the mats</p><h2 id="schedule-title">Your week.<br>Your training.</h2><p class="section-intro">Morning rounds or an evening class. Find a session that fits your life.</p><a class="text-link" href="#trial">Let's find your first class <svg aria-hidden="true"><use href="#arrow"/></svg></a><p class="schedule-info">First visit? Please contact us before coming in. All times are local to Hudson, NH.</p><p class="schedule-info">Questions about a session? <a href="tel:+16034593610">Call (603) 459 3610</a> before your first visit.</p></div>
         <div>
-          <span class="section-label">Weekly Classes</span>
-          <h2 class="section-title">Class Schedule</h2>
-        </div>
-        <p class="schedule-note">Contact us to confirm current times:<br /><a href="tel:6034593610">(603) 459-3610</a>
-        </p>
-      </div>
-      <div class="schedule-grid reveal">
-        <!-- Monday -->
-        <div class="day-col">
-          <div class="day-header">Mon</div>
-          <div class="class-slot">
-            <span class="slot-time">6:00 PM</span>
-            <span class="slot-name">No-Gi Open Mat</span>
-            <span class="slot-level">All Levels</span>
+          <div class="schedule-tabs" role="tablist" aria-label="Choose a training schedule">
+            <button class="schedule-tab" role="tab" id="tab-adult" aria-controls="panel-adult" aria-selected="true" tabindex="0" data-schedule="adult">Adult no gi</button>
+            <button class="schedule-tab" role="tab" id="tab-kids" aria-controls="panel-kids" aria-selected="false" tabindex="-1" data-schedule="kids">Kids</button>
+            <button class="schedule-tab" role="tab" id="tab-open" aria-controls="panel-open" aria-selected="false" tabindex="-1" data-schedule="open">Open mat &amp; wrestling</button>
           </div>
-        </div>
-        <!-- Tuesday -->
-        <div class="day-col">
-          <div class="day-header">Tue</div>
-          <div class="class-slot">
-            <span class="slot-time">6:30 PM</span>
-            <span class="slot-name">Fundamentals</span>
-            <span class="slot-level">Beginner</span>
+          <!-- Transcribed from the academy's published schedule on November 14, 2026. -->
+          <div id="panel-adult" role="tabpanel" aria-labelledby="tab-adult" tabindex="0">
+            <div class="schedule-row"><span class="schedule-day">Mon</span><div class="sessions"><div class="session"><time>10 AM to 12 PM</time><span>No gi class &amp; rolling</span></div><div class="session"><time>6 to 8 PM</time><span>No gi class &amp; rolling</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Tue</span><div class="sessions"><div class="session"><time>6 to 7 PM</time><span>No gi class</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Wed</span><div class="sessions"><div class="session"><time>10 AM to 12 PM</time><span>No gi class &amp; rolling</span></div><div class="session"><time>6 to 8 PM</time><span>No gi class &amp; rolling</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Thu</span><div class="sessions"><div class="session"><time>6 to 7 PM</time><span>No gi class</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Fri</span><div class="sessions"><div class="session"><time>10 AM to 12 PM</time><span>No gi class &amp; rolling</span></div><div class="session"><time>6 to 8 PM</time><span>No gi class &amp; rolling</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Sat</span><div class="sessions"><div class="session"><time>4 to 6 PM</time><span>No gi class &amp; rolling</span></div></div></div>
           </div>
-        </div>
-        <!-- Wednesday -->
-        <div class="day-col">
-          <div class="day-header">Wed</div>
-          <div class="class-slot">
-            <span class="slot-time">6:30 PM</span>
-            <span class="slot-name">Competition Class</span>
-            <span class="slot-level">Intermediate+</span>
+          <div id="panel-kids" role="tabpanel" aria-labelledby="tab-kids" tabindex="0" hidden>
+            <div class="schedule-row"><span class="schedule-day">Mon</span><div class="sessions"><div class="session"><time>4:30 to 5:30 PM</time><span>Kids no gi class</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Tue</span><div class="sessions"><div class="session"><time>4:30 to 5:30 PM</time><span>Kids no gi class</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Thu</span><div class="sessions"><div class="session"><time>4:30 to 5:30 PM</time><span>Kids no gi class</span></div></div></div>
           </div>
-        </div>
-        <!-- Thursday -->
-        <div class="day-col">
-          <div class="day-header">Thu</div>
-          <div class="class-slot">
-            <span class="slot-time">6:30 PM</span>
-            <span class="slot-name">No-Gi Drilling</span>
-            <span class="slot-level">All Levels</span>
+          <div id="panel-open" role="tabpanel" aria-labelledby="tab-open" tabindex="0" hidden>
+            <div class="schedule-row"><span class="schedule-day">Sun</span><div class="sessions"><div class="session"><time>10 AM to 12 PM</time><span>Open mat &amp; competition training</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Tue</span><div class="sessions"><div class="session"><time>12 to 2 PM</time><span>Open mat &amp; competition training</span></div><div class="session"><time>7 to 8 PM</time><span>Rolling &amp; competition training</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Wed</span><div class="sessions"><div class="session"><time>5:15 to 6 PM</time><span>Wrestling class</span></div></div></div>
+            <div class="schedule-row"><span class="schedule-day">Thu</span><div class="sessions"><div class="session"><time>12 to 2 PM</time><span>Open mat &amp; competition training</span></div><div class="session"><time>7 to 8 PM</time><span>Rolling &amp; competition training</span></div></div></div>
           </div>
-        </div>
-        <!-- Friday -->
-        <div class="day-col">
-          <div class="day-header">Fri</div>
-          <div class="class-slot">
-            <span class="slot-time">6:00 PM</span>
-            <span class="slot-name">Open Mat</span>
-            <span class="slot-level">All Levels</span>
-          </div>
-        </div>
-        <!-- Saturday -->
-        <div class="day-col">
-          <div class="day-header">Sat</div>
-          <div class="class-slot">
-            <span class="slot-time">10:00 AM</span>
-            <span class="slot-name">Advanced Training</span>
-            <span class="slot-level">Intermediate+</span>
-          </div>
-        </div>
-        <!-- Sunday -->
-        <div class="day-col">
-          <div class="day-header">Sun</div>
-          <div class="class-slot">
-            <span class="slot-name">Open Mat</span>
-            <span class="slot-level">All Levels</span>
-          </div>
+          <p class="schedule-foot"><svg aria-hidden="true"><use href="#check"/></svg>All classes welcome all levels. Competition training is open to anyone. All affiliations welcome.</p>
+          <noscript><style>#panel-kids,#panel-open{display:block!important}.schedule-tabs{display:none}</style><p class="schedule-info">All class schedules are shown above. Please call before your first visit.</p></noscript>
         </div>
       </div>
-      <p style="margin-top:20px; font-size:0.82rem; color:var(--muted); font-weight:300;">* Schedule subject to change.
-        Please contact us or visit for the most up-to-date times.</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- GALLERY -->
-  <section id="gallery">
-    <div class="gallery-header reveal">
-      <span class="section-label">On The Mats</span>
-      <h2 class="section-title">Life at Precision</h2>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="Gym pics/463651628_17868474282216631_2644600173347682351_n.webp" alt="Life at Precision"
-          loading="lazy" />
+    <section class="section stories" id="stories" aria-labelledby="stories-title">
+      <div class="wrap">
+        <div class="section-top"><div><p class="kicker">Hear it from the room</p><h2 id="stories-title">Real people.<br>Real reasons to train.</h2></div><a class="text-link" href="https://maps.app.goo.gl/SAXEqSEeRz2kBamw6" target="_blank" rel="noopener noreferrer">Read our Google reviews <span aria-hidden="true">↗</span></a></div>
+        <div class="story-grid">
+          <figure class="story"><video controls playsinline preload="none" poster="review-assets/video-4-poster.jpg" width="360" height="638" aria-label="Member experiences: trying your first class"><source src="Video/AQNYCE5SYoMaCNy3ucsTGy_gRHkWDm1oqCkrKEUg3jTvkBHbXGmp0mUM8R38WsUUmai2a-cIievLzhsCkvpZ5F8fF5fcwZe-6e6B42s.mp4" type="video/mp4"><a href="Video/AQNYCE5SYoMaCNy3ucsTGy_gRHkWDm1oqCkrKEUg3jTvkBHbXGmp0mUM8R38WsUUmai2a-cIievLzhsCkvpZ5F8fF5fcwZe-6e6B42s.mp4">Watch member story 1</a></video><figcaption><span class="story-title">Trying your first class</span><span>1:26</span></figcaption><details class="story-summary"><summary>Read the story summary</summary><p>Members encourage new and experienced grapplers to try a class or open mat. They describe a challenging room, honest feedback on their technique, and support from the team.</p></details></figure>
+          <figure class="story"><video controls playsinline preload="none" poster="review-assets/video-3-poster.jpg" width="720" height="1280" aria-label="Member experiences: a first visit, in their words"><source src="Video/AQNkM1ItUaoyle3uEfHGipD9GPiBoJ6n-Nd363icV6COuuTUKu6Zua9YZJi5pSCRKLJVmiJC0YrOD3BJh7JXJqYdpUlGSLcT1DnfajM.mp4" type="video/mp4"><a href="Video/AQNkM1ItUaoyle3uEfHGipD9GPiBoJ6n-Nd363icV6COuuTUKu6Zua9YZJi5pSCRKLJVmiJC0YrOD3BJh7JXJqYdpUlGSLcT1DnfajM.mp4">Watch member story 2</a></video><figcaption><span class="story-title">A first visit, in their words</span><span>0:35</span></figcaption><details class="story-summary"><summary>Read the story summary</summary><p>Several members encourage people who are thinking about training to come in and give it a try. This short collection of responses is about taking that first step.</p></details></figure>
+          <figure class="story"><video controls playsinline preload="none" poster="review-assets/video-2-poster.jpg" width="720" height="1280" aria-label="Member experiences: why sunday open mat matters"><source src="Video/AQN8nbVVOU-0n3GkOfps9dAN4Bpk9ie-fTDvbkhTW8rC5tTQGb-viPR5IMlo0lw7WrBwB6DCqG2sc8fKqSbnmv7nh9C6wofVbAeroTI.mp4" type="video/mp4"><a href="Video/AQN8nbVVOU-0n3GkOfps9dAN4Bpk9ie-fTDvbkhTW8rC5tTQGb-viPR5IMlo0lw7WrBwB6DCqG2sc8fKqSbnmv7nh9C6wofVbAeroTI.mp4">Watch member story 3</a></video><figcaption><span class="story-title">Why Sunday open mat matters</span><span>1:29</span></figcaption><details class="story-summary"><summary>Read the story summary</summary><p>Members describe Sunday open mat as a chance to train with people from different gyms, share rounds with friends, and improve together. The atmosphere and variety of training partners are recurring themes.</p></details></figure>
+          <figure class="story"><video controls playsinline preload="none" poster="review-assets/video-1-poster.jpg" width="360" height="640" aria-label="Member experiences: practical training. personal growth."><source src="Video/AQM-W1Fvhc5MUtQD95_DE6IBuGGVfPAYGiwnDF9Utmd_laNeqrNwWHN-V9b9dBQ3StPmSu4-B_iP69FrlAVGdTo557lh4fTeiKkcdEo.mp4" type="video/mp4"><a href="Video/AQM-W1Fvhc5MUtQD95_DE6IBuGGVfPAYGiwnDF9Utmd_laNeqrNwWHN-V9b9dBQ3StPmSu4-B_iP69FrlAVGdTo557lh4fTeiKkcdEo.mp4">Watch member story 4</a></video><figcaption><span class="story-title">Practical training. Personal growth.</span><span>1:27</span></figcaption><details class="story-summary"><summary>Read the story summary</summary><p>A longtime grappler describes joining Precision after moving to New Hampshire. He talks about practical technique, learning from difficult rounds, and coaches who invest in students' progress.</p></details></figure>
+        </div>
+        <p class="story-note">Press play to hear their stories, or open a written summary below each video. Videos include sound and on screen captions.</p>
       </div>
-      <div class="gallery-item">
-        <img src="Gym pics/469754393_17990605574744103_738510347638929315_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="Gym pics/469879790_17990605568744103_9220575206677984422_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="Gym pics/470000448_17990605577744103_8658953642676619108_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="Gym pics/471294166_18474878881017882_4157132093676981294_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="Gym pics/481189990_17999778929744103_6374369685766268485_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-      <div class="gallery-item">
-        <img src="Gym pics/498906128_18009329966744103_3447071265295230955_n.webp" alt="Life at Precision"
-          loading="lazy" />
-      </div>
-    </div>
+    </section>
 
-    <!-- VIDEO TESTIMONIALS -->
-    <div class="video-testimonials-header reveal">
-      <span class="section-label">Hear It From Them</span>
-      <h2 class="section-title">Member Stories</h2>
-    </div>
-    <div class="video-testimonials-grid">
-      <div class="video-testimonial-item reveal">
-        <video controls preload="metadata">
-          <source
-            src="Video/AQM-W1Fvhc5MUtQD95_DE6IBuGGVfPAYGiwnDF9Utmd_laNeqrNwWHN-V9b9dBQ3StPmSu4-B_iP69FrlAVGdTo557lh4fTeiKkcdEo.mp4"
-            type="video/mp4" />
-        </video>
+    <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <div class="section-top"><div><p class="kicker">Inside Precision</p><h2 id="gallery-title">More than a place<br>to put in rounds.</h2></div><p class="section-intro">The training partners, the small breakthroughs, the team in your corner. This is what showing up looks like.</p></div>
+        <div class="gallery-grid">
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/team-1080.webp" data-caption="The Precision team together on the mats" aria-label="Enlarge the Precision team photo"><img src="site-assets/team-720.webp" srcset="site-assets/team-360.webp 360w, site-assets/team-720.webp 720w, site-assets/team-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Precision members gathered on the mats after a class" width="1080" height="982" loading="lazy"><span aria-hidden="true">↗</span></button>
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/technique-1080.webp" data-caption="Working through the details together" aria-label="Enlarge the coaching photo"><img src="site-assets/technique-720.webp" srcset="site-assets/technique-360.webp 360w, site-assets/technique-720.webp 720w, site-assets/technique-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Students watching a grappling technique demonstration" width="1080" height="1080" loading="lazy"><span aria-hidden="true">↗</span></button>
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/competition-team-1080.webp" data-caption="Taking the work from the training room to competition" aria-label="Enlarge the competition team photo"><img src="site-assets/competition-team-720.webp" srcset="site-assets/competition-team-360.webp 360w, site-assets/competition-team-720.webp 720w, site-assets/competition-team-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Precision athletes together at Grappling Industries" width="1080" height="1080" loading="lazy"><span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="gallery-bottom">
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/training-partners-1080.webp" data-caption="Training partners on and off the mats" aria-label="Enlarge the training partners photo"><img src="site-assets/training-partners-720.webp" srcset="site-assets/training-partners-360.webp 360w, site-assets/training-partners-720.webp 720w, site-assets/training-partners-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Four training partners standing together in the gym" width="1080" height="1080" loading="lazy"><span aria-hidden="true">↗</span></button>
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/coaching-1080.webp" data-caption="Personal attention to the details of your game" aria-label="Enlarge the technique photo"><img src="site-assets/coaching-720.webp" srcset="site-assets/coaching-360.webp 360w, site-assets/coaching-720.webp 720w, site-assets/coaching-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="Shawn helping a student with technique" width="1080" height="1080" loading="lazy"><span aria-hidden="true">↗</span></button>
+          <button class="gallery-photo" type="button" data-photo data-full="site-assets/community-1080.webp" data-caption="Good people sharing the mats" aria-label="Enlarge the group training photo"><img src="site-assets/community-720.webp" srcset="site-assets/community-360.webp 360w, site-assets/community-720.webp 720w, site-assets/community-1080.webp 1080w" sizes="(max-width: 640px) calc(100vw - 40px), 50vw" alt="A group of women together on the training mats" width="1080" height="720" loading="lazy"><span aria-hidden="true">↗</span></button>
+        </div>
       </div>
-      <div class="video-testimonial-item reveal">
-        <video controls preload="metadata">
-          <source
-            src="Video/AQNYCE5SYoMaCNy3ucsTGy_gRHkWDm1oqCkrKEUg3jTvkBHbXGmp0mUM8R38WsUUmai2a-cIievLzhsCkvpZ5F8fF5fcwZe-6e6B42s.mp4"
-            type="video/mp4" />
-        </video>
-      </div>
-      <div class="video-testimonial-item reveal">
-        <video controls preload="metadata">
-          <source
-            src="Video/AQNkM1ItUaoyle3uEfHGipD9GPiBoJ6n-Nd363icV6COuuTUKu6Zua9YZJi5pSCRKLJVmiJC0YrOD3BJh7JXJqYdpUlGSLcT1DnfajM.mp4"
-            type="video/mp4" />
-        </video>
-      </div>
-      <div class="video-testimonial-item reveal">
-        <video controls preload="metadata">
-          <source
-            src="Video/AQN8nbVVOU-0n3GkOfps9dAN4Bpk9ie-fTDvbkhTW8rC5tTQGb-viPR5IMlo0lw7WrBwB6DCqG2sc8fKqSbnmv7nh9C6wofVbAeroTI.mp4"
-            type="video/mp4" />
-        </video>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- REVIEWS -->
-  <section id="reviews">
-    <div class="reviews-inner">
-      <div class="reviews-header reveal">
-        <div>
-          <span class="section-label">Google Reviews</span>
-          <h2 class="section-title">What Members Say</h2>
-        </div>
-        <div class="reviews-summary">
-          <div class="reviews-score">5.0</div>
-          <div class="reviews-meta">
-            <div class="stars">★★★★★</div>
-            <div class="reviews-count">50+ Reviews on Google</div>
-          </div>
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-grid">
+        <div><p class="kicker">Before you step in</p><h2 id="faq-title">Good questions.<br>Clear answers.</h2><p class="section-intro">Starting something new comes with questions. We're here to help you feel ready.</p><a class="text-link" href="mailto:precisionjiujitsu29@gmail.com">Ask us anything <svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+        <div class="faq-list">
+          <details><summary>Do I need any experience?</summary><p>No. Complete beginners are welcome. Let us know it's your first class and the coaches will help you get started. You don't need to get in shape before reaching out.</p></details>
+          <details><summary>What is no gi jiu jitsu?</summary><p>Jiu jitsu is a grappling sport built around takedowns, control, escapes, and submissions. No gi means you train without the traditional kimono, usually in shorts and a rash guard. It focuses on grappling rather than punches or kicks.</p></details>
+          <details><summary>What should I bring to my first class?</summary><p>Wear clean athletic shorts without pockets or zippers and a rash guard or fitted athletic shirt. Bring water. You don't need to buy a gi. Contact us beforehand so a coach can help you prepare.</p></details>
+          <details><summary>How much does it cost?</summary><p>Your first class is free. For current membership prices and options, call <a href="tel:+16034593610">(603) 459 3610</a> or email <a href="mailto:precisionjiujitsu29@gmail.com">precisionjiujitsu29@gmail.com</a>. We'll help you choose based on the classes you want to attend.</p></details>
+          <details><summary>Can my child try a class? What ages can join?</summary><p>Kids classes welcome children ages 5 and up. Tell us your child's age and experience so a coach can confirm the right class. Kids sessions run Monday, Tuesday, and Thursday from 4:30 to 5:30 PM.</p></details>
+          <details><summary>Can I visit from another academy?</summary><p>All affiliations are welcome. Our published schedule includes open mats and competition training. Please contact us before your visit to confirm the session and any visitor details.</p></details>
         </div>
       </div>
-      <div class="reviews-grid">
-        <div class="review-card reveal">
-          <div class="review-quote">"</div>
-          <p class="review-text">Best gym I've ever trained at. Shawn is an elite-level coach who actually cares about
-            every single person on the mat. The atmosphere is competitive but welcoming — exactly what you want.</p>
-          <div class="review-footer">
-            <span class="reviewer-name">Michael T.</span>
-            <span class="review-stars">★★★★★</span>
-          </div>
-        </div>
-        <div class="review-card reveal">
-          <div class="review-quote">"</div>
-          <p class="review-text">I came in with zero experience and felt completely at home from day one. The
-            instruction is top notch and the team pushes you to get better every class. Couldn't recommend this place
-            more.</p>
-          <div class="review-footer">
-            <span class="reviewer-name">Sarah K.</span>
-            <span class="review-stars">★★★★★</span>
-          </div>
-        </div>
-        <div class="review-card reveal">
-          <div class="review-quote">"</div>
-          <p class="review-text">Training under a BJJ Fanatics instructor is an insane privilege. The techniques Shawn
-            teaches are straight out of high-level competition. My game has transformed completely in just a few months.
-          </p>
-          <div class="review-footer">
-            <span class="reviewer-name">Jake R.</span>
-            <span class="review-stars">★★★★★</span>
-          </div>
-        </div>
-        <div class="review-card reveal">
-          <div class="review-quote">"</div>
-          <p class="review-text">The family-like environment here is real. Everyone looks out for each other and the
-            coaches are genuinely invested in your progress. This gym is a hidden gem in Hudson.</p>
-          <div class="review-footer">
-            <span class="reviewer-name">Danny M.</span>
-            <span class="review-stars">★★★★★</span>
-          </div>
-        </div>
-      </div>
-      <a href="https://maps.app.goo.gl/SAXEqSEeRz2kBamw6" target="_blank" rel="noopener" class="google-badge">
-        <span>⭐</span> View All 50+ Reviews on Google
-      </a>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="faq-inner">
-      <div class="faq-header reveal">
-        <span class="section-label">Common Questions</span>
-        <h2 class="section-title">FAQ</h2>
+    <section class="section trial" id="trial" aria-labelledby="trial-title">
+      <div class="wrap trial-grid">
+        <div><p class="kicker">Your first class is free</p><h2 id="trial-title">The next step<br>is <span>showing up.</span></h2><p class="section-intro">Tell us where you're starting. We'll help you find a class and answer your questions before you walk through the door.</p>
+          <div class="visit-info">
+            <div class="visit-item"><svg aria-hidden="true"><use href="#pin"/></svg><div><b>Find us</b><a href="https://maps.app.goo.gl/SAXEqSEeRz2kBamw6" target="_blank" rel="noopener noreferrer">14 Brady Drive, Unit 2<br>Hudson, NH 03051 ↗</a><small>Please contact us before your first visit.</small></div></div>
+            <div class="visit-item"><svg aria-hidden="true"><use href="#phone"/></svg><div><b>Give us a call</b><a href="tel:+16034593610">(603) 459 3610</a></div></div>
+            <div class="visit-item"><svg aria-hidden="true"><use href="#mail"/></svg><div><b>Send us an email</b><a href="mailto:precisionjiujitsu29@gmail.com">precisionjiujitsu29@gmail.com</a></div></div>
+          </div>
+        </div>
+        <form class="trial-form" id="trial-form" action="mailto:precisionjiujitsu29@gmail.com" method="post" enctype="text/plain" data-endpoint="/api/trial">
+          <h3>Let's get you on the mats.</h3><p class="form-intro">A little about you. A class that fits.</p><label class="honeypot" aria-hidden="true">Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label>
+          <label class="field" for="trial-name"><span>Your name</span><input id="trial-name" name="name" autocomplete="name" placeholder="First and last name" maxlength="120" required></label>
+          <div class="form-row"><label class="field" for="trial-email"><span>Email</span><input id="trial-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required></label><label class="field" for="trial-phone"><span>Phone <span class="form-optional">(optional)</span></span><input id="trial-phone" type="tel" name="phone" autocomplete="tel" placeholder="Your phone number" maxlength="40"></label></div>
+          <label class="field" for="trial-experience"><span>What brings you in?</span><select id="trial-experience" name="experience" required><option value="" disabled selected>Choose your starting point</option><option>I'm new to jiu jitsu</option><option>I've trained before</option><option>I'm asking about kids classes</option><option>I'd like to visit an open mat</option></select></label>
+          <label class="field" for="trial-message"><span>Anything you'd like us to know? <span class="form-optional">(optional)</span></span><textarea id="trial-message" name="message" rows="2" maxlength="2000" placeholder="Questions, a preferred day, or your child's age"></textarea></label>
+          <button class="button" id="submit-trial" type="submit"><span>Request my free class</span><svg aria-hidden="true"><use href="#arrow"/></svg></button><p class="request-status" id="request-status" role="status" tabindex="-1" hidden></p>
+          <p class="form-note">The gym will contact you to arrange your visit. Your class is confirmed when you hear back. We use your details to respond to this request. <a href="/privacy">Privacy details</a>. Prefer to call? <a href="tel:+16034593610">(603) 459 3610</a>.</p><button class="email-choice" id="prepare-email" type="button">Prefer email? Prepare a message instead.</button>
+          <noscript><p class="form-note">Please email <a href="mailto:precisionjiujitsu29@gmail.com?subject=Free%20class%20request">precisionjiujitsu29@gmail.com</a> or call to arrange your class.</p></noscript>
+          <div class="email-preview" id="email-preview" hidden><h4 id="request-heading" tabindex="-1">Your request is ready.</h4><p>Open your email app to send it to precisionjiujitsu29@gmail.com, or copy it into your preferred email service.</p><pre id="request-text"></pre><a class="button" id="email-request" href="mailto:precisionjiujitsu29@gmail.com">Open email app<svg aria-hidden="true"><use href="#arrow"/></svg></a><button class="copy-button" id="copy-request" type="button">Copy request</button><span class="copy-status" id="copy-status" role="status"></span></div>
+        </form>
       </div>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">Do I need any experience to start?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">Absolutely not. We welcome complete beginners and have structured our
-              fundamentals program specifically for people with zero grappling experience. You'll be in good hands from
-              your very first class.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">What do I wear to my first class?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">Since we're a no-gi gym, you don't need a traditional gi. Wear athletic shorts
-              or spats (no pockets or zippers) and a rash guard or tight-fitting athletic shirt. Board shorts work fine
-              for your first visit.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">How much does membership cost?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">We offer flexible membership options to fit your schedule and budget. Contact us
-              at (603) 459-3610 or send us a message through the form below to get current pricing details.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">What exactly is no-gi jiu jitsu?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">No-gi jiu jitsu is grappling without the traditional kimono (gi). You train in
-              shorts and a rash guard, which makes the game faster and more scramble-heavy. It's also the format used in
-              most modern submission grappling competitions like ADCC and Submission Underground.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">Do I need to contact you before showing up?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">Yes — we ask that you reach out before your first visit so we can make sure
-              someone is there to welcome you and get you set up properly. Shoot us an email at
-              precisionjiujitsu29@gmail.com or call (603) 459-3610.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span class="faq-q-text">Is this a good gym if I want to compete?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-answer">
-            <p class="faq-answer-inner">100%. Our head instructor Shawn competes at the highest levels of the sport and
-              both instructors have deep competition backgrounds. We run dedicated competition classes and actively
-              support students who want to test their skills on the mats.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap"><div class="footer-top"><a class="brand" href="/"><img src="/review-assets/precision-logo-circle.svg" alt="Precision Jiu Jitsu" width="52" height="52" loading="lazy"><span class="brand-name">Precision Jiu Jitsu<small>Iron sharpens iron</small></span></a><nav class="footer-links" aria-label="Footer navigation"><a href="/adult-no-gi-jiu-jitsu">Adult classes</a><a href="/kids-jiu-jitsu">Kids classes</a><a href="/first-class">First visit</a><a href="/instructionals">Instructionals</a><a href="/shawn-melanson">Shawn Melanson</a><a href="https://www.instagram.com/precision_jiujitsu/" target="_blank" rel="noopener noreferrer">Instagram ↗</a><a href="/privacy">Privacy</a></nav></div><div class="footer-bottom"><p>© <span id="year">2026</span> Precision Jiu Jitsu. Hudson, New Hampshire.</p><a href="https://maps.app.goo.gl/SAXEqSEeRz2kBamw6" target="_blank" rel="noopener noreferrer" >14 Brady Drive, Unit 2 · Get directions <span aria-hidden="true">↗</span></a></div></div></footer><div class="mobile-cta"><a class="call" href="tel:+16034593610">Call us</a><a class="button" href="/#trial" >Try a free class<span aria-hidden="true">↗</span></a></div><div class="mobile-cta"><a class="call" href="tel:+16034593610">Call us</a><a class="button" href="/#trial" >Try a free class<span aria-hidden="true">↗</span></a></div>
+  <div class="mobile-cta"><a class="call" href="tel:+16034593610"><svg aria-hidden="true"><use href="#phone"/></svg>Call us</a><a class="button" href="#trial">Try a free class<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
 
-  <!-- FREE TRIAL CTA -->
-  <section id="trial">
-    <div class="trial-inner">
-      <div class="trial-left reveal">
-        <span class="section-label">Get Started</span>
-        <h2 class="section-title">Claim Your Free Trial Class</h2>
-        <p class="section-sub">Come see what training under a world-class instructor feels like. No experience needed.
-          No obligation. Just show up.</p>
-        <ul class="trial-perks">
-          <li>One completely free class — no strings attached</li>
-          <li>No experience required whatsoever</li>
-          <li>Personal walkthrough from one of our coaches</li>
-          <li>Meet the team and see if it's the right fit</li>
-          <li>14 Brady Dr Unit 2, Hudson, NH 03051</li>
-        </ul>
-      </div>
-      <div class="trial-form reveal">
-        <h3>Book Your Free Trial</h3>
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" placeholder="Your name" id="f-name" />
-        </div>
-        <div class="form-group">
-          <label>Phone Number</label>
-          <input type="tel" placeholder="(603) 000-0000" id="f-phone" />
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="your@email.com" id="f-email" />
-        </div>
-        <div class="form-group">
-          <label>Experience Level</label>
-          <select id="f-level">
-            <option value="" disabled selected>Select your level</option>
-            <option>Complete Beginner</option>
-            <option>Some Experience</option>
-            <option>Intermediate</option>
-            <option>Advanced / Competitor</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message (Optional)</label>
-          <textarea rows="3" placeholder="Any questions or preferred times..." id="f-msg"></textarea>
-        </div>
-        <button class="btn-primary form-submit" onclick="submitForm()">Send My Request →</button>
-        <p class="form-note">We'll reach out within 24 hours to confirm your visit.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="#hero" class="nav-logo">
-            <img src="Logo/Logo.png" alt="Precision BJJ Logo" />
-            <div class="nav-logo-text">
-              <span>PRECISION BJJ</span>
-            </div>
-          </a>
-          <p class="footer-tagline">Hudson's only no-gi specific jiu jitsu gym. High-level instruction.
-            Competition-tested technique. A team that pushes you to be better.</p>
-          <div class="social-links">
-            <a href="https://www.instagram.com/precision_jiujitsu/" target="_blank" rel="noopener"
-              class="social-link">IG</a>
-            <a href="https://www.facebook.com/p/Precision-Jiu-Jitsu-100095051498298/" target="_blank" rel="noopener"
-              class="social-link">FB</a>
-            <a href="https://www.instagram.com/shawnmelanson160/" target="_blank" rel="noopener"
-              class="social-link">S↗</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Navigate</h4>
-          <ul>
-            <li><a href="#about">Instructors</a></li>
-            <li><a href="#schedule">Schedule</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#trial">Free Trial</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <ul class="footer-contact">
-            <li><span>📍</span><span>14 Brady Dr Unit 2<br />Hudson, NH 03051</span></li>
-            <li><span>📞</span><span><a href="tel:6034593610" style="color:var(--muted);text-decoration:none;">(603)
-                  459-3610</a></span></li>
-            <li><span>✉</span><span><a href="mailto:precisionjiujitsu29@gmail.com"
-                  style="color:var(--muted);text-decoration:none;">precisionjiujitsu29@gmail.com</a></span></li>
-            <li><span>🕐</span><span>Mon–Sat · See schedule for times</span></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2025 Precision Jiu Jitsu · Hudson, NH. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="mailto:precisionjiujitsu29@gmail.com">Contact</a>
-          <a href="https://maps.app.goo.gl/SAXEqSEeRz2kBamw6" target="_blank">Google Maps</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- MOBILE STICKY CTA -->
-  <div class="mobile-cta-bar">
-    <a href="#trial">🥋 Claim Your Free Trial Class</a>
-  </div>
-
+  <dialog id="photo-dialog" aria-labelledby="photo-title"><div class="dialog-top"><p id="photo-title">Inside Precision Jiu Jitsu</p><button class="close-dialog" type="button" aria-label="Close photo">×</button></div><figure><img id="expanded-photo" alt=""><figcaption id="photo-caption"></figcaption></figure></dialog>
   <script>
-    // NAV SCROLL
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    (() => {
+      'use strict';
+      const tabs = [...document.querySelectorAll('[data-schedule]')];
+      function chooseSchedule(name, focus = false) {
+        tabs.forEach(tab => {
+          const selected = tab.dataset.schedule === name;
+          tab.setAttribute('aria-selected', String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+          document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+          if (selected && focus) tab.focus();
+        });
+      }
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => chooseSchedule(tab.dataset.schedule));
+        tab.addEventListener('keydown', event => {
+          let next = index;
+          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+          else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === 'Home') next = 0;
+          else if (event.key === 'End') next = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          chooseSchedule(tabs[next].dataset.schedule, true);
+        });
+      });
+      document.querySelectorAll('[data-choose-schedule]').forEach(link => link.addEventListener('click', () => chooseSchedule(link.dataset.chooseSchedule)));
 
-    // HAMBURGER
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-    });
-    function closeMobile() {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-    }
+      const photoDialog = document.getElementById('photo-dialog');
+      const showDialog = dialog => { dialog.showModal(); document.body.classList.add('modal-open'); syncHeroVideo(); };
+      document.querySelectorAll('dialog').forEach(dialog => {
+        dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+        dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
+        dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); dialog.querySelectorAll('video').forEach(video => video.pause()); });
+      });
+      document.querySelectorAll('[data-photo]').forEach(button => button.addEventListener('click', () => {
+        const source = button.querySelector('img');
+        const expanded = document.getElementById('expanded-photo');
+        expanded.src = button.dataset.full || source.currentSrc || source.src;
+        expanded.alt = source.alt;
+        document.getElementById('photo-caption').textContent = button.dataset.caption;
+        showDialog(photoDialog);
+      }));
+      const heroVideo = document.getElementById('hero-video');
+      const videos = [...document.querySelectorAll('video')].filter(video => video !== heroVideo);
+      let heroInView = true;
+      heroVideo.muted = true;
 
-    // SCROLL REVEAL
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
-          observer.unobserve(e.target);
+      function syncHeroVideo() {
+        const anotherVideoPlaying = videos.some(video => !video.paused && !video.ended);
+        if (!heroInView || document.hidden || document.querySelector('dialog[open]') || anotherVideoPlaying) {
+          heroVideo.pause();
+          return;
+        }
+        heroVideo.play().catch(() => { /* The poster remains visible if autoplay is unavailable. */ });
+      }
+      videos.forEach(video => {
+        video.addEventListener('play', () => {
+          videos.forEach(other => { if (other !== video) other.pause(); });
+          syncHeroVideo();
+        });
+        video.addEventListener('pause', syncHeroVideo);
+        video.addEventListener('ended', syncHeroVideo);
+      });
+      document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('close', syncHeroVideo));
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) videos.forEach(video => video.pause());
+        syncHeroVideo();
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          heroInView = entries[0].intersectionRatio > .05;
+          syncHeroVideo();
+        }, { threshold:[0, .05] }).observe(document.getElementById('home'));
+      }
+      syncHeroVideo();
+
+      const form = document.getElementById('trial-form');
+      const requestText = document.getElementById('request-text');
+      const submitButton = document.getElementById('submit-trial');
+      const submitLabel = submitButton.querySelector('span');
+      const requestStatus = document.getElementById('request-status');
+      const requestFields = [...form.querySelectorAll('input, select, textarea')];
+      const emailChoice = document.getElementById('prepare-email');
+      const makeId = () => globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + '-' + Math.random().toString(36).slice(2) + '-trial';
+      let requestId = makeId();
+      let sending = false;
+      function readDetails() {
+        const data = new FormData(form);
+        const read = name => String(data.get(name) || '').trim();
+        return { name:read('name'), email:read('email'), phone:read('phone'), experience:read('experience'), message:read('message'), website:read('website'), requestId };
+      }
+      function showStatus(message, error = false) {
+        requestStatus.textContent = message;
+        requestStatus.classList.toggle('error', error);
+        requestStatus.hidden = false;
+      }
+      function prepareEmail(details, focus = true) {
+        const body = [
+          'Hi Precision Jiu Jitsu,', '', "I'd like to arrange a first visit.", '',
+          'Name: ' + details.name, 'Email: ' + details.email,
+          'Phone: ' + (details.phone || 'Not provided'),
+          'My starting point: ' + details.experience, '',
+          'Questions or preferred class: ' + (details.message || 'Please help me choose a class.'), '',
+          'Please let me know the next steps. Thank you!'
+        ].join('\n');
+        requestText.textContent = body;
+        document.getElementById('email-request').href = 'mailto:precisionjiujitsu29@gmail.com?subject=' + encodeURIComponent('Free class request | Precision Jiu Jitsu') + '&body=' + encodeURIComponent(body);
+        document.getElementById('email-preview').hidden = false;
+        document.getElementById('copy-status').textContent = '';
+        if (focus) document.getElementById('request-heading').focus();
+      }
+      form.addEventListener('input', () => {
+        document.getElementById('email-preview').hidden = true;
+        requestStatus.hidden = true;
+        requestId = makeId();
+        if (!sending) { submitButton.disabled = false; submitLabel.textContent = 'Request my free class'; }
+      });
+      document.getElementById('prepare-email').addEventListener('click', () => {
+        if (form.reportValidity()) prepareEmail(readDetails());
+      });
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (sending) return;
+        const details = readDetails();
+        sending = true;
+        submitButton.disabled = true;
+        requestFields.forEach(field => { field.disabled = true; });
+        emailChoice.disabled = true;
+        document.getElementById('email-preview').hidden = true;
+        submitButton.setAttribute('aria-busy', 'true');
+        submitLabel.textContent = 'Sending your request...';
+        requestStatus.hidden = true;
+        let accepted = false;
+        try {
+          const response = await fetch(form.dataset.endpoint, {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(details), signal:AbortSignal.timeout(12000)
+          });
+          const receipt = await response.json();
+          if (!response.ok || receipt.ok !== true) throw new Error(receipt.error || 'Online requests are temporarily unavailable. Please use the email option below or call (603) 459 3610.');
+          accepted = true;
+          window.PrecisionMeasurement?.track('trial_request_accepted', {placement:'trial_form'});
+          document.getElementById('email-preview').hidden = true;
+          showStatus('Your request has been sent. The gym will contact you to arrange your visit. Your class is confirmed when you hear back.');
+          submitLabel.textContent = 'Request sent';
+          form.reset();
+        } catch (error) {
+          showStatus('Your request has not been sent. Please send the prepared email below or call (603) 459 3610 to arrange your visit.', true);
+          prepareEmail(details, false);
+          submitLabel.textContent = 'Try sending again';
+        } finally {
+          sending = false;
+          requestFields.forEach(field => { field.disabled = false; });
+          emailChoice.disabled = false;
+          submitButton.removeAttribute('aria-busy');
+          submitButton.disabled = accepted;
+          requestStatus.focus();
         }
       });
-    }, { threshold: 0.12 });
-    reveals.forEach(el => observer.observe(el));
-
-    // FAQ TOGGLE
-    function toggleFaq(btn) {
-      const item = btn.closest('.faq-item');
-      const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-      if (!wasOpen) item.classList.add('open');
-    }
-
-    // FORM SUBMIT
-    function submitForm() {
-      const name = document.getElementById('f-name').value.trim();
-      const phone = document.getElementById('f-phone').value.trim();
-      const email = document.getElementById('f-email').value.trim();
-      if (!name || !email) {
-        alert('Please fill in your name and email.');
-        return;
-      }
-      const subject = encodeURIComponent('Free Trial Request - Precision Jiu Jitsu');
-      const body = encodeURIComponent(
-        `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nLevel: ${document.getElementById('f-level').value}\n\nMessage:\n${document.getElementById('f-msg').value}`
-      );
-      window.location.href = `mailto:precisionjiujitsu29@gmail.com?subject=${subject}&body=${body}`;
-    }
+      document.getElementById('copy-request').addEventListener('click', async () => {
+        const status = document.getElementById('copy-status');
+        try { await navigator.clipboard.writeText('To: precisionjiujitsu29@gmail.com\nSubject: Free class request\n\n' + requestText.textContent); status.textContent = 'Copied. Paste it into your email.'; }
+        catch { status.textContent = 'Select and copy the request text above, then paste it into your email.'; }
+      });
+      document.getElementById('year').textContent = String(new Date().getFullYear());
+    })();
   </script>
 </body>
-
 </html>

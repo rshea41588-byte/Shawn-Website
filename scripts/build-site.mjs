@@ -1,46 +1,67 @@
-import { mkdir, readFile, writeFile, readdir, copyFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, readdir, copyFile, rm } from 'node:fs/promises';
 import { dirname, join, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pages, defaultOrigin } from './site-data.mjs';
+import { renderPage, scheduleRows, notFound } from './render-pages.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const output = join(root, 'dist');
-const pages = [
-  { source:'new index.html', output:'index.html', route:'/' },
-  { source:'shawn-melanson.html', output:'shawn-melanson.html', route:'/shawn-melanson' }
-];
-const origin = new URL(process.env.SITE_URL || 'https://precisionjiujitsunh.com').origin;
-if (!origin.startsWith('https://')) throw new Error('SITE_URL must be an HTTPS origin.');
-const publicRelease = process.env.VERCEL_ENV === 'production' && process.env.SITE_LAUNCH_READY === 'true';
-await mkdir(output, { recursive: true });
-for (const page of pages) {
-  const source = await readFile(join(root, page.source), 'utf8');
-  let html = source.replaceAll('https://precisionjiujitsunh.com/', `${origin}/`);
-  html = html.replace(/<meta name="robots" content="[^"]*">/, `<meta name="robots" content="${publicRelease ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'}">`);
-  html = html.replaceAll('href="new index.html', 'href="/').replaceAll('href="shawn-melanson.html', 'href="/shawn-melanson');
-  if (!html.includes('rel="canonical"') || !html.includes('application/ld+json')) throw new Error(`Missing SEO metadata in ${page.source}.`);
-  await writeFile(join(output, page.output), html);
+export const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+export const releaseEnabled = env => env.VERCEL_ENV === 'production' && env.SITE_LAUNCH_READY === 'true';
+export function siteOrigin(value=defaultOrigin) {
+  const url=new URL(value);
+  if (url.protocol!=='https:' || url.username || url.password || url.pathname!=='/' || url.search || url.hash) throw new Error('SITE_URL must be an HTTPS origin with no path or credentials.');
+  return url.origin;
 }
-
-async function copyAssets(folder, allowed) {
-  const sourceFolder = join(root, folder);
-  for (const entry of await readdir(sourceFolder, { withFileTypes: true })) {
+export function prepareHTML(html,origin,publicRelease) {
+  return html.replaceAll(defaultOrigin,origin)
+    .replace(/<meta name="robots" content="[^"]*">/,`<meta name="robots" content="${publicRelease?'index, follow, max-image-preview:large':'noindex, nofollow'}">`)
+    .replaceAll('href="index.html','href="/').replaceAll('href="shawn-melanson.html','href="/shawn-melanson');
+}
+export async function compilePages({origin=defaultOrigin,publicRelease=false}={}) {
+  const files=new Map();
+  for (const page of pages) {
+    let html=page.source?await readFile(join(root,page.source),'utf8'):renderPage(page,origin);
+    if (page.route==='/') for (const kind of ['adult','kids','open']) {
+      const expression=new RegExp(`(<div[^>]*id="panel-${kind}"[^>]*>)[\\s\\S]*?(?=\\n          <\\/div>)`);
+      html=html.replace(expression,`$1\n${scheduleRows(kind,true)}`);
+    }
+    html=prepareHTML(html,origin,publicRelease);
+    if (!html.includes('rel="canonical"') || !html.includes('application/ld+json')) throw new Error(`Missing SEO metadata: ${page.route}`);
+    files.set(page.output,html);
+  }
+  return files;
+}
+export const robotsText = (origin,publicRelease) => `# Allow crawlers to read the page level indexing directive.\nUser-agent: *\nAllow: /\n${publicRelease?`Sitemap: ${origin}/sitemap.xml\n`:''}`;
+export const sitemapText = (origin,publicRelease) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${publicRelease?pages.map(page=>`  <url><loc>${origin}${page.route}</loc></url>`).join('\n')+'\n':''}</urlset>\n`;
+async function copyAssets(output,folder,allowed) {
+  for (const entry of await readdir(join(root,folder),{withFileTypes:true})) {
     if (!entry.isFile() || !allowed.test(entry.name)) continue;
-    const destination = join(output, folder, entry.name);
-    if (relative(root, destination).startsWith('..')) throw new Error('Asset outside workspace.');
-    await mkdir(dirname(destination), { recursive: true });
-    await copyFile(join(sourceFolder, entry.name), destination);
+    const destination=join(output,folder,entry.name);
+    if (relative(output,destination).startsWith('..')) throw new Error('Asset outside output.');
+    await mkdir(dirname(destination),{recursive:true});
+    await copyFile(join(root,folder,entry.name),destination);
   }
 }
-await copyAssets('Gym pics', /\.(webp|png|jpe?g)$/i);
-await copyAssets('Video', /\.mp4$/i);
-await copyAssets('review-assets', /\.(svg|webp|png|jpe?g|vtt)$/i);
-await copyAssets('site-assets', /\.(svg|webp|png|jpe?g|vtt|css|js)$/i);
-
-const robots = publicRelease
-  ? `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`
-  : 'User-agent: *\nAllow: /\n';
-await writeFile(join(output, 'robots.txt'), robots);
-const sitemapEntries = publicRelease ? pages.map(page => `  <url><loc>${origin}${page.route}</loc></url>`).join('\n') : '';
-await writeFile(join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries ? `${sitemapEntries}\n` : ''}</urlset>\n`);
-await writeFile(join(output, '404.html'), '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Page not found | Precision Jiu Jitsu</title><body style="background:#0c121b;color:#fff;font:18px/1.6 Arial;padding:10vw"><h1>Let’s get you back on the mats.</h1><p>This page could not be found.</p><a style="color:#c8a96e" href="/">Visit Precision Jiu Jitsu</a></body></html>');
-console.log(`Built ${pages.length} pages in dist. Indexing: ${publicRelease ? 'public release enabled' : 'review protection enabled'}.`);
+export async function buildSite(env=process.env) {
+  const output=resolve(root,'dist');
+  // Only this fixed generated folder can be cleared. Never accept a caller supplied target.
+  if (output!==join(root,'dist') || relative(root,output)!=='dist') throw new Error('Unexpected build output.');
+  const origin=siteOrigin(env.SITE_URL||defaultOrigin), publicRelease=releaseEnabled(env);
+  const files=await compilePages({origin,publicRelease});
+  await rm(output,{recursive:true,force:true});
+  await mkdir(output,{recursive:true});
+  files.set('robots.txt',robotsText(origin,publicRelease));
+  files.set('sitemap.xml',sitemapText(origin,publicRelease));
+  files.set('llms.txt',(await readFile(join(root,'llms.txt'),'utf8')).replaceAll(defaultOrigin,origin));
+  files.set('site.webmanifest',await readFile(join(root,'site.webmanifest'),'utf8'));
+  files.set('404.html',prepareHTML(notFound(),origin,false));
+  for (const [filename,contents] of files) {
+    await mkdir(dirname(join(output,filename)),{recursive:true});
+    await writeFile(join(output,filename),contents);
+  }
+  await copyAssets(output,'Gym pics',/\.(webp|png|jpe?g)$/i);
+  await copyAssets(output,'Video',/\.mp4$/i);
+  await copyAssets(output,'review-assets',/\.(svg|webp|png|jpe?g|vtt)$/i);
+  await copyAssets(output,'site-assets',/\.(svg|webp|png|jpe?g|vtt|css|js)$/i);
+  console.log(`Built ${pages.length} pages in dist. Indexing: ${publicRelease?'public release enabled':'review protection enabled'}.`);
+}
+if (process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)) await buildSite();

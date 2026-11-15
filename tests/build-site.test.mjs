@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const hash=buffer=>createHash('sha256').update(buffer).digest('hex');
 test('all pages need launch approval for indexing and building preserves every source file',async()=>{
-  const sources=['index.html','new index.html','shawn-melanson.html'];
+  const sources=['index.html','shawn-melanson.html'];
   const hashes=await Promise.all(sources.map(async file=>hash(await readFile(join(root,file)))));
   function build(environment){
     const result=spawnSync(process.execPath,['scripts/build-site.mjs'],{cwd:root,env:{...process.env,...environment},encoding:'utf8'});

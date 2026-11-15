@@ -1,0 +1,4 @@
+# Review mode. Pages carry noindex, nofollow until an approved public build.
+# Allow crawling so search engines can read the page level directive.
+User-agent: *
+Allow: /

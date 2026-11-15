@@ -5,11 +5,14 @@ import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Readable } from 'node:stream';
 import { createTrialHandler } from '../server/trial-handler.mjs';
+import { pages, defaultOrigin } from './site-data.mjs';
+import { compilePages, robotsText, sitemapText } from './build-site.mjs';
+import { notFound } from './render-pages.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT || 8765);
 const trial = createTrialHandler();
-const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.mjs':'text/javascript', '.json':'application/json', '.webp':'image/webp', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.vtt':'text/vtt; charset=utf-8', '.xml':'application/xml', '.txt':'text/plain' };
+const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.webmanifest':'application/manifest+json', '.json':'application/json', '.webp':'image/webp', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.vtt':'text/vtt; charset=utf-8', '.xml':'application/xml', '.txt':'text/plain' };
 const redirects = { '/services':'/#schedule', '/about':'/#coaches', '/contact':'/#trial' };
 
 createServer(async (req, res) => {
@@ -27,10 +30,23 @@ createServer(async (req, res) => {
     const redirected = redirects[url.pathname.replace(/\/$/,'')];
     if (redirected) { res.writeHead(308, { Location:redirected }); res.end(); return; }
     let pathname = decodeURIComponent(url.pathname);
-    if (pathname === '/') pathname = '/new index.html';
-    if (pathname === '/shawn-melanson/') { res.writeHead(308, { Location:'/shawn-melanson' }); res.end(); return; }
-    if (pathname === '/shawn-melanson') pathname = '/shawn-melanson.html';
-    if (pathname === '/robots.txt') { res.writeHead(200, { 'Content-Type':'text/plain' }); res.end('User-agent: *\nAllow: /\n'); return; }
+    if (['/new index.html','/index.html'].includes(pathname)) { res.writeHead(308,{Location:'/'});res.end();return; }
+    const normalized=pathname.replace(/\/$/,'').replace(/\.html$/,'')||'/';
+    const page=pages.find(candidate=>candidate.route===normalized);
+    if (page) {
+      if (pathname!==page.route) { res.writeHead(308,{Location:page.route});res.end();return; }
+      const compiled=await compilePages();
+      res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow'});
+      res.end(req.method==='HEAD'?undefined:compiled.get(page.output));return;
+    }
+    if (pathname==='/robots.txt' || pathname==='/sitemap.xml') {
+      res.writeHead(200,{'Content-Type':pathname.endsWith('.xml')?'application/xml':'text/plain'});
+      res.end(req.method==='HEAD'?undefined:pathname==='/robots.txt'?robotsText(defaultOrigin,false):sitemapText(defaultOrigin,false));return;
+    }
+    const allowedAsset=/^\/(site-assets|review-assets|Gym pics|Video)\/[^/]+\.(css|js|webp|jpe?g|png|svg|mp4|vtt)$/i.test(pathname);
+    if (!allowedAsset && !['/llms.txt','/site.webmanifest'].includes(pathname)) {
+      res.writeHead(404,{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex'});res.end(req.method==='HEAD'?undefined:notFound());return;
+    }
     const path = resolve(root, `.${pathname}`);
     const relative = path.slice(root.length + 1);
     if (!path.startsWith(root + sep) || relative.split(/[\\/]/).some(part=>part.startsWith('.')) || /^(server|api|tests|precisionjiujitsunh\.com-audit)[\\/]/.test(relative)) {
@@ -52,4 +68,4 @@ createServer(async (req, res) => {
       if (req.method === 'HEAD') res.end(); else createReadStream(path).pipe(res);
     }
   } catch { res.writeHead(404); res.end('Not found'); }
-}).listen(port, '127.0.0.1', () => console.log(`Local preview: http://127.0.0.1:${port}/new%20index.html`));
+}).listen(port, '127.0.0.1', () => console.log(`Local preview: http://127.0.0.1:${port}/`));

@@ -1,0 +1,11 @@
+{
+  "name": "Precision Jiu Jitsu",
+  "short_name": "Precision",
+  "description": "No gi jiu jitsu in Hudson, New Hampshire, and Shawn Melanson instructionals.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#0c121b",
+  "theme_color": "#0c121b",
+  "icons": [{ "src": "/review-assets/precision-logo-circle.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
