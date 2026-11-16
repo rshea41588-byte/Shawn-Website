@@ -1,0 +1,18 @@
+export const privacyHead = `<!-- PRIVACY ASSETS START --><link rel="stylesheet" href="/site-assets/fonts.css"><link rel="stylesheet" href="/site-assets/privacy.css"><script src="/site-assets/privacy-preferences.js" defer></script><script src="/site-assets/privacy.js" defer></script><!-- PRIVACY ASSETS END -->`;
+
+export function syncPrivacyAssets(html) {
+  html=html.replace(/<!-- PRIVACY ASSETS START -->[\s\S]*?<!-- PRIVACY ASSETS END -->/g,'')
+    .replace(/\s*<link\b[^>]*(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>/g,'');
+  return html.replace(/<link rel="stylesheet"/,privacyHead+'<link rel="stylesheet"');
+}
+
+export function privacyControls() {
+  return `<!-- PRIVACY CONTROLS START -->
+  <section class="privacy-banner" id="privacy-banner" aria-label="Cookie choices" hidden><h2>Your privacy, your choice.</h2><p>Local videos and class requests work without optional services. Choose whether to enable Google Maps and external video players. <a href="/cookies">Cookie policy</a>.</p><div class="privacy-actions"><button class="button outline" type="button" data-privacy-choice="necessary">Necessary only</button><button class="button outline" type="button" data-privacy-choice="all">Allow optional</button><button class="button outline" type="button" data-privacy-settings>Settings</button></div></section>
+  <dialog class="privacy-dialog" id="privacy-dialog" aria-labelledby="privacy-title" aria-describedby="privacy-description"><div class="privacy-dialog-heading"><h2 id="privacy-title">Cookie settings</h2><button class="close-dialog" type="button" aria-label="Close cookie settings">×</button></div><p id="privacy-description">You can browse the site, watch local videos and send an enquiry with optional services turned off.</p><div class="privacy-option"><div><h3>Necessary preferences</h3><p>Remembers these choices in this browser for up to 180 days. No contact details or advertising identifier are stored.</p></div><span class="privacy-required">Always available</span></div><label class="privacy-option"><span><strong>Google Maps</strong><span>Allows the embedded gym map to connect to Google, which may use cookies and receive connection information.</span></span><input id="privacy-maps" type="checkbox" name="maps"></label><label class="privacy-option"><span><strong>External videos</strong><span>Allows YouTube and BJJ Fanatics video players, delivered through Bunny Stream. These services may use cookies or similar storage and receive connection information.</span></span><input id="privacy-videos" type="checkbox" name="videos"></label><p class="privacy-request" id="privacy-request" hidden></p><div class="privacy-actions"><button class="button outline" type="button" data-privacy-choice="necessary">Necessary only</button><button class="button outline" type="button" data-privacy-choice="all">Allow optional</button><button class="button outline" type="button" id="privacy-save">Save my choices</button></div><p class="privacy-detail">Change your choices at any time using Cookie settings in the footer. Turning a service off stops its embeds on this site. Remove any cookies it already stored through your browser. <a href="/cookies">Cookie policy</a> · <a href="/privacy">Privacy policy</a>.</p></dialog><p class="sr-only" id="privacy-status" role="status"></p>
+  <!-- PRIVACY CONTROLS END -->`;
+}
+
+export function mapPlaceholder() {
+  return `<div class="map-placeholder"><strong>Find Precision in Hudson.</strong><p>14 Brady Drive, Unit 2<br>Hudson, NH 03051</p><button class="button outline" type="button" data-load-map>Enable Google Maps</button><p class="map-privacy-note">The map connects to Google when you allow it. You can also use the directions link below.</p></div>`;
+}

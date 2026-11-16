@@ -37,7 +37,9 @@ The build writes an isolated `dist` folder. It clears only that generated folder
 | `/adult-no-gi-jiu-jitsu` | Adult program, coaching, timetable and first visit questions |
 | `/kids-jiu-jitsu` | Confirmed ages 5 and up, timetable and parent questions |
 | `/first-class` | Visit process, clothing, directions and contact |
-| `/privacy` | Enquiry handling and external services |
+| `/privacy` | Privacy policy, enquiries, providers and SMS disclosures |
+| `/cookies` | Cookie policy and preference controls |
+| `/terms` | Website terms, enquiries and text messaging terms |
 
 There is also a branded `404.html`, circular SVG favicon, browser manifest, `llms.txt`, `robots.txt` and `sitemap.xml`. `README.md` is repository documentation and is excluded from the public output. No service worker or offline cache is installed.
 
@@ -50,11 +52,11 @@ There is also a branded `404.html`, circular SVG favicon, browser manifest, `llm
 5. Add a new page to the registry in `scripts/site-data.mjs`. The build, local server and production sitemap all use that registry. New pages need unique content, metadata, an internal entry link and a useful purpose.
 6. Recheck course sources when the publisher changes its catalog. The current curriculum and player inventory was checked November 15, 2026. Prices are deliberately left with the publisher because offers change.
 
-The site has seven public previews and five additional free samples. Permission to use those public players was confirmed by Ryan. Full courses stay on BJJ Fanatics. Players load only after a visitor chooses to load one. Cover art is requested from the publisher; the media is not copied into this repository. Keep the publisher fallback link if an embed changes or becomes unavailable.
+The site has seven public previews and five additional free samples. Permission to use those public players was confirmed by Ryan. Full courses stay on BJJ Fanatics. Players load only after External videos is allowed and a visitor chooses a player. Course covers and the interview thumbnail are served locally. Full course media is not copied into this repository. Keep the publisher fallback link if an embed changes or becomes unavailable.
 
 Shawn’s profile displays all seven courses. Its catalog block is generated from the same course data during local preview and production builds, using `renderProfileCatalog` in `scripts/render-pages.mjs`. The marked block in the source HTML is a readable reference copy. Keep the catalog data authoritative when making future changes. The Leg Drag listing has 33 curriculum chapters across two volumes; that total includes introductory and closing sections.
 
-The Air Jail section embeds a 54 second excerpt from the official Fighting for Your Life Podcast interview, from 27:24 to 28:18, after a visitor chooses to load it. The segment was located through the public episode captions. A separate link opens the complete interview. Its YouTube thumbnail can load before playback. The opening competition video remains silent and separate from this optional interview. The privacy page describes these providers.
+The Air Jail section embeds a 54 second excerpt from the official Fighting for Your Life Podcast interview, from 27:24 to 28:18, after a visitor chooses to load it. The segment was located through the public episode captions. A separate link opens the complete interview. Its thumbnail is served from the website, and its YouTube player requires External videos permission. The opening competition video remains silent and separate from this optional interview. The privacy page describes these providers.
 
 Seminar and private training buttons open an enquiry form on Shawn’s page. The `/api/booking` endpoint sends enquiries through the same Resend account and verified sender used for class requests. It uses `BOOKING_TO_EMAIL` when set, otherwise `TRIAL_TO_EMAIL`, then the Precision gym inbox. No payment or reservation is made. Specific retreat dates are omitted so the page does not depend on an event calendar.
 
@@ -77,7 +79,7 @@ SITE_LAUNCH_READY=false
 
 Public indexing requires both `VERCEL_ENV=production` and `SITE_LAUNCH_READY=true`. A preview deployment remains excluded even if the launch flag is accidentally true. Vercel supplies `VERCEL_ENV`; do not override it. While excluded, every page carries `noindex, nofollow`, and the generated sitemap is empty. Crawling is allowed so search engines can read that directive. This is indexing protection, not password protection.
 
-At an approved launch, the build generates a complete sitemap with all 14 canonical public pages and adds its address to robots.txt. The 404 page always stays excluded. `llms.txt` is a readable navigation aid, not a ranking guarantee or access control mechanism. Google does not require a special AI file for AI search inclusion. References: [Google AI search guidance](https://developers.google.com/search/docs/appearance/ai-features), [robots.txt guidance](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt), [llms.txt proposal](https://llmstxt.org/).
+At an approved launch, the build generates a complete sitemap with all 16 canonical public pages and adds its address to robots.txt. The 404 page always stays excluded. `llms.txt` is a readable navigation aid, not a ranking guarantee or access control mechanism. Google does not require a special AI file for AI search inclusion. References: [Google AI search guidance](https://developers.google.com/search/docs/appearance/ai-features), [robots.txt guidance](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt), [llms.txt proposal](https://llmstxt.org/).
 
 Before changing DNS or enabling indexing:
 
@@ -103,7 +105,7 @@ Copy `.env.example` to `.env.local` for local configuration. Set the same server
 
 Without provider credentials, both enquiry forms clearly report that sending is unavailable and offers prepared email and phone alternatives. Preparing or copying an email does not send it. Both forms require a provider acceptance receipt before showing success. A successful API response means the email provider accepted the request. It does not prove inbox delivery, a confirmed class or a membership sale. Confirm those outcomes with the gym.
 
-The homepage includes the official Google Maps embed for the gym’s listing. The shared Training dropdown contains adult classes, kids classes and first class information in the desktop, mobile and footer navigation. Shawn’s page uses a coaching enquiry action instead of a local class signup action.
+The homepage includes the official Google Maps embed for the gym’s listing. It stays behind a local placeholder until Google Maps is allowed in Cookie settings. The shared Training dropdown contains adult classes, kids classes and first class information in the desktop, mobile and footer navigation. Shawn’s page uses a coaching enquiry action instead of a local class signup action.
 
 ## Measurement
 
@@ -125,10 +127,23 @@ Connect a chosen analytics provider to these events only after its privacy and c
 
 Tests cover request validation and failure handling, source preservation, preview and production indexing, metadata and schema, and internal page and asset discovery. The build includes only the static asset folders on its allow list. GitHub Actions runs the tests and build on pushes and pull requests.
 
-Local review on November 15, 2026: all 17 automated tests passed, all 14 routes responded successfully, and all seven public previews plus five free samples played in the browser. Responsive checks included desktop and mobile widths of 390 and 320 pixels. The homepage retained its transparent header and autoplaying, muted, looping video. These checks are local verification, not production field performance measurements.
+Local review on November 15, 2026: the site contains 16 registered routes. The automated suite covers indexing gates, contact delivery validation, local links and assets, and privacy preference validation. Earlier desktop and mobile checks verified the seven public previews and five free samples. Cookie control verification is documented with the current review material outside this repository.
 
 Research reports, screenshots and other working material belong in the separate `Website working files` folder outside this repository. Build output is ignored by Git. Commit source, content, tests and documentation through GitHub Desktop when the review is complete.
 
 Ongoing work from the strategy requires the owner’s accounts and real observations: Google Business Profile updates, Search Console and Bing setup, analytics selection, publisher sales attribution, new coaching contributions, partnerships and periodic performance reviews. No traffic, sales, field performance or ranking baseline is invented here. Review public results after sufficient real activity before adding more pages.
 
 Navigation and enquiry review on November 15, 2026: Training dropdowns work in desktop, mobile and footer navigation. Both coaching enquiry buttons open the form, validation blocks incomplete requests, and the unavailable provider path preserves a copyable message. The homepage map shows the gym’s Google Maps pin. Live email delivery has not been tested or confirmed.
+
+
+## Privacy controls and policy maintenance
+
+Website policies are maintained in `scripts/legal-content.mjs`, with shared controls in `scripts/privacy-markup.mjs` and browser behavior in `site-assets/privacy.js`. The footer exposes Privacy policy, Cookie policy, Terms and conditions and Cookie settings on every page. Old Squarespace policy URLs redirect to the new policy routes when this site is deployed.
+
+Both optional categories start off. Google Maps loads after map permission; YouTube and Bunny Stream players require video permission plus a player selection. Revoking permission removes loaded optional iframes. Local opening and member videos, class requests and coaching enquiries work without optional permission. Fonts, image previews and cover art are local assets, with the font licenses included in the published files.
+
+The `precision_privacy_v1` local storage record contains only the preference version, two boolean choices and the choice time. It expires after 180 days. If storage is unavailable, the choice lasts for the current page. Browser site data controls remove existing provider cookies; this site cannot delete cookies on other provider domains. Do not add analytics, advertising, checkout, SMS enrolment or another provider without updating the actual controls and the policies together.
+
+The policies reflect the implemented website and preserve relevant SMS disclosures from the existing business site. They do not invent membership prices, refund periods, security certifications or fixed enquiry retention periods. Shawn should review the business wording before the public launch and arrange any legal review appropriate to his services.
+
+Robots verification on November 15, 2026: the Vercel alias returns HTTP 200 for robots.txt and sitemap.xml. Crawling is allowed, the sitemap is intentionally empty, and the homepage carries noindex, nofollow. The public domain still returns the original Squarespace robots.txt and sitemap. Keep review protection until the domain migration and launch approval are complete. Google's guidance requires allowing crawling so that a page level noindex directive can be read: https://developers.google.com/search/docs/crawling-indexing/block-indexing.

@@ -3,6 +3,7 @@ import { dirname, join, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pages, defaultOrigin } from './site-data.mjs';
 import { renderPage, scheduleRows, notFound, renderProfileCatalog, syncNavigation } from './render-pages.mjs';
+import { syncPrivacyAssets } from './privacy-markup.mjs';
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const releaseEnabled = env => env.VERCEL_ENV === 'production' && env.SITE_LAUNCH_READY === 'true';
@@ -20,7 +21,7 @@ export async function compilePages({origin=defaultOrigin,publicRelease=false}={}
   const files=new Map();
   for (const page of pages) {
     let html=page.source?await readFile(join(root,page.source),'utf8'):renderPage(page,origin);
-    if (page.source) html=syncNavigation(html,page.route);
+    if (page.source) html=syncPrivacyAssets(syncNavigation(html,page.route));
     if (page.route==='/shawn-melanson') html=html.replace(/<!-- PROFILE CATALOG START -->[\s\S]*?<!-- PROFILE CATALOG END -->/,`<!-- PROFILE CATALOG START -->\n${renderProfileCatalog()}\n<!-- PROFILE CATALOG END -->`);
     if (page.route==='/') for (const kind of ['adult','kids']) {
       const expression=new RegExp(`(<div[^>]*id="panel-${kind}"[^>]*>)[\\s\\S]*?(?=\\n          <\\/div>)`);
@@ -63,7 +64,7 @@ export async function buildSite(env=process.env) {
   await copyAssets(output,'Gym pics',/\.(webp|png|jpe?g)$/i);
   await copyAssets(output,'Video',/\.mp4$/i);
   await copyAssets(output,'review-assets',/\.(svg|webp|png|jpe?g|vtt)$/i);
-  await copyAssets(output,'site-assets',/\.(svg|webp|png|jpe?g|vtt|css|js)$/i);
+  await copyAssets(output,'site-assets',/\.(svg|webp|png|jpe?g|vtt|css|js|woff2|txt)$/i);
   console.log(`Built ${pages.length} pages in dist. Indexing: ${publicRelease?'public release enabled':'review protection enabled'}.`);
 }
 if (process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)) await buildSite();

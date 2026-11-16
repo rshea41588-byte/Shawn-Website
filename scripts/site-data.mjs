@@ -75,7 +75,9 @@ export const generatedPages = [
   {route:'/adult-no-gi-jiu-jitsu',kind:'adult',title:'Adult No Gi Jiu Jitsu Hudson, NH | Precision',description:'Adult no gi jiu jitsu in Hudson, New Hampshire, with black belt coaches Shawn Melanson and Alex West. Explore class times and arrange your first free class.'},
   {route:'/kids-jiu-jitsu',kind:'kids',title:'Kids Jiu Jitsu Ages 5 and Up Hudson, NH | Precision',description:'Kids no gi jiu jitsu for ages 5 and up in Hudson, New Hampshire. Classes Monday, Tuesday and Thursday. Contact Precision to arrange your child’s first free class.'},
   {route:'/first-class',kind:'first',title:'Your First Jiu Jitsu Class in Hudson, NH | Precision',description:'Plan your first free class at Precision Jiu Jitsu in Hudson, New Hampshire. Find what to wear, class times, directions and how to arrange a visit with the gym.'},
-  {route:'/privacy',kind:'privacy',title:'Privacy | Precision Jiu Jitsu',description:'How Precision Jiu Jitsu handles class enquiries, public video players and links to BJJ Fanatics. Contact the gym with questions about your information.'}
+  {route:'/privacy',kind:'privacy',title:'Privacy Policy | Precision Jiu Jitsu',description:'How Precision Jiu Jitsu LLC handles website enquiries, coaching requests, optional media, browser preferences and related communications.'},
+  {route:'/cookies',kind:'cookies',title:'Cookie Policy and Settings | Precision Jiu Jitsu',description:'Choose whether to enable Google Maps and external videos. Learn how Precision Jiu Jitsu remembers your cookie preferences.'},
+  {route:'/terms',kind:'terms',title:'Terms and Conditions | Precision Jiu Jitsu',description:'Website terms for Precision Jiu Jitsu LLC, including class and coaching enquiries, outside instructionals and text messaging terms.'}
 ];
 export const sourcePages = [
   {source:'index.html',output:'index.html',route:'/'},

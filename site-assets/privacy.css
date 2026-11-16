@@ -1,0 +1,43 @@
+.footer-policies { display:flex; flex-wrap:wrap; align-items:center; gap:8px 24px; padding:0 0 22px; }
+.footer-policies a,.footer-policies button { display:inline-flex; align-items:center; min-height:44px; font:12px var(--body); color:var(--muted); background:none; border:0; padding:8px 0; text-decoration:none; }
+.footer-policies a:hover,.footer-policies button:hover { color:var(--gold-light); text-decoration:underline; }
+.privacy-banner { position:fixed; z-index:70; bottom:20px; right:20px; width:min(540px,calc(100% - 40px)); max-height:60dvh; overflow:auto; padding:24px; color:var(--white); background:var(--ink); border:1px solid var(--gold); box-shadow:0 10px 45px #0007; }
+.privacy-banner h2 { font-size:28px; line-height:1.1; margin-bottom:12px; }
+.privacy-banner p { color:var(--muted); font-size:13px; line-height:1.6; }
+.privacy-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+.privacy-actions .button { flex:1 1 130px; padding:11px 13px; min-height:46px; font-size:11px; letter-spacing:.02em; }
+dialog.privacy-dialog { width:min(620px,calc(100% - 32px)); max-width:620px; max-height:calc(100dvh - 40px); padding:30px; border:1px solid var(--gold); background:var(--ink); color:var(--white); overflow:auto; }
+.privacy-dialog::backdrop { background:#000b; backdrop-filter:blur(3px); }
+.privacy-dialog-heading { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:18px; }
+.privacy-dialog h2 { font-size:36px; line-height:1; }
+.privacy-dialog .close-dialog { position:static; display:grid; place-items:center; flex:none; width:44px; height:44px; padding:0; color:var(--white); border:1px solid var(--line); background:none; font:26px/1 var(--body); }
+.privacy-dialog>p { font-size:14px; color:var(--muted); }
+.privacy-option { display:flex; align-items:center; justify-content:space-between; gap:22px; padding:23px 0; border-bottom:1px solid var(--line); }
+.privacy-option:first-of-type { margin-top:12px; border-top:1px solid var(--line); }
+.privacy-option strong,.privacy-option h3 { display:block; font:600 15px/1.5 var(--body); text-transform:none; }
+.privacy-option p,.privacy-option>span>span { display:block; font-size:12px; color:var(--muted); line-height:1.6; margin-top:7px; }
+.privacy-option input { flex:none; accent-color:var(--gold); width:24px; height:24px; cursor:pointer; }
+.privacy-required { color:var(--gold-light); font-size:11px; min-width:70px; text-align:right; }
+.privacy-dialog .privacy-request { color:var(--gold-light); margin-top:20px; }
+.privacy-dialog .privacy-detail { font-size:11px; margin-top:20px; }
+.map-placeholder { display:flex; min-height:290px; flex-direction:column; align-items:center; justify-content:center; padding:28px; text-align:center; gap:15px; background:linear-gradient(130deg,var(--ink),var(--panel)); }
+.map-placeholder strong { color:var(--white); font-family:var(--display); font-size:29px; text-transform:uppercase; line-height:1.1; }
+.map-placeholder>p { color:var(--muted); font-size:13px; }
+.map-placeholder .button { min-height:46px; font-size:11px; }
+.map-placeholder .map-privacy-note { font-size:11px; max-width:310px; }
+.legal-page h1 { font-size:clamp(54px,7vw,90px); }
+.legal-copy h2 { font-size:32px; line-height:1.15; margin:35px 0 18px; }
+.legal-copy h2:first-child { margin-top:0; }
+.legal-copy h3 { font-size:25px; margin:25px 0 14px; line-height:1.2; }
+.legal-copy p,.legal-copy li { font-size:16px; line-height:1.8; }
+.legal-copy p+p { margin-top:18px; }
+.legal-copy .button { margin:18px 0 4px; }
+.legal-copy .button.outline { color:var(--ink); border-color:#8e9699; }
+.legal-links { display:flex; flex-wrap:wrap; gap:10px 25px; margin-top:28px; font-size:14px; }
+.policy-table { overflow-x:auto; margin:22px 0; }
+.policy-table table { width:100%; min-width:530px; border-collapse:collapse; font-size:13px; }
+.policy-table th,.policy-table td { padding:16px 12px; vertical-align:top; text-align:left; border:1px solid #b9c0c3; }
+.policy-table th { background:#e3e5e2; font-weight:600; }
+.policy-table code { overflow-wrap:anywhere; }
+@media(max-width:640px) { .privacy-banner { left:12px; right:12px; bottom:85px; width:auto; padding:20px; } dialog.privacy-dialog { padding:23px; max-height:calc(100dvh - 24px); } .privacy-dialog h2 { font-size:31px; } .privacy-option { gap:14px; } .privacy-required { min-width:62px; } .footer-policies { gap:0 22px; } }
+@media print { .privacy-banner,.privacy-dialog,.footer-policies button,.map-placeholder button { display:none!important; } }

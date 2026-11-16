@@ -10,7 +10,7 @@ test('the single homepage, every route, and all local links and assets remain va
   await assert.rejects(stat(join(root,'new index.html')),{code:'ENOENT'});
   const files=await compilePages();
   const routes=new Map(pages.map(p=>[p.route,files.get(p.output)]));
-  assert.equal(routes.size,14);
+  assert.equal(routes.size,pages.length);
   for (const [route,html] of routes) {
     assert.equal((html.match(/<h1(?:\s|>)/g)||[]).length,1,route);
     assert.match(html,/<meta name="robots" content="noindex, nofollow">/,route);
@@ -97,6 +97,6 @@ test('shared navigation groups training and avoids duplicate footer destinations
     assert.ok(footer.includes('/kids-jiu-jitsu'));
   }
   const home=files.get('index.html');
-  assert.match(home,/<iframe title="Google Maps: Precision Jiu Jitsu/);
-  assert.match(home,/src="https:\/\/www.google.com\/maps\/embed\?pb=/);
+  assert.match(home,/data-map-src="https:\/\/www.google.com\/maps\/embed\?pb=/);
+  assert.doesNotMatch(home,/<iframe/,'The map must wait for optional permission');
 });

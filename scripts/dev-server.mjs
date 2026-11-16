@@ -14,8 +14,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT || 8765);
 const trial = createTrialHandler();
 const booking = createBookingHandler();
-const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.webmanifest':'application/manifest+json', '.json':'application/json', '.webp':'image/webp', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.vtt':'text/vtt; charset=utf-8', '.xml':'application/xml', '.txt':'text/plain' };
-const redirects = { '/services':'/#schedule', '/about':'/#coaches', '/contact':'/#trial' };
+const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.webmanifest':'application/manifest+json', '.json':'application/json', '.webp':'image/webp', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.vtt':'text/vtt; charset=utf-8', '.xml':'application/xml', '.txt':'text/plain', '.woff2':'font/woff2' };
+const redirects = { '/services':'/#schedule', '/about':'/#coaches', '/contact':'/#trial', '/privacy-policy':'/privacy', '/cookie-policy':'/cookies', '/terms-of-service':'/terms', '/terms-and-conditions':'/terms' };
 
 createServer(async (req, res) => {
   try {
@@ -45,7 +45,7 @@ createServer(async (req, res) => {
       res.writeHead(200,{'Content-Type':pathname.endsWith('.xml')?'application/xml':'text/plain'});
       res.end(req.method==='HEAD'?undefined:pathname==='/robots.txt'?robotsText(defaultOrigin,false):sitemapText(defaultOrigin,false));return;
     }
-    const allowedAsset=/^\/(site-assets|review-assets|Gym pics|Video)\/[^/]+\.(css|js|webp|jpe?g|png|svg|mp4|vtt)$/i.test(pathname);
+    const allowedAsset=/^\/(site-assets|review-assets|Gym pics|Video)\/[^/]+\.(css|js|webp|jpe?g|png|svg|mp4|vtt|woff2|txt)$/i.test(pathname);
     if (!allowedAsset && !['/llms.txt','/site.webmanifest'].includes(pathname)) {
       res.writeHead(404,{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex'});res.end(req.method==='HEAD'?undefined:notFound());return;
     }

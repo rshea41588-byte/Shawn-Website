@@ -46,7 +46,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-arm-bar-it-all.jpg"
   },
   {
     "slug": "precision-wrestling-for-jiu-jitsu",
@@ -95,7 +96,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-precision-wrestling-for-jiu-jitsu.jpg"
   },
   {
     "slug": "modernized-headquarters-passing",
@@ -134,7 +136,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-modernized-headquarters-passing.jpg"
   },
   {
     "slug": "precision-top-stuff",
@@ -165,7 +168,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-precision-top-stuff.jpg"
   },
   {
     "slug": "butterfly-half-and-knee-shield",
@@ -214,7 +218,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-butterfly-half-and-knee-shield.jpg"
   },
   {
     "slug": "seated-sweeps-and-wrestle-ups",
@@ -263,7 +268,8 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-seated-sweeps-and-wrestle-ups.jpg"
   },
   {
     "slug": "leg-drag-system",
@@ -294,6 +300,7 @@
         ]
       }
     ],
-    "verifiedOn": "2026-11-15"
+    "verifiedOn": "2026-11-15",
+    "coverPath": "/site-assets/course-leg-drag-system.png"
   }
 ]

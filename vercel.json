@@ -18,7 +18,11 @@
     { "source": "/about/", "destination": "/#coaches", "permanent": true },
     { "source": "/contact", "destination": "/#trial", "permanent": true },
     { "source": "/contact/", "destination": "/#trial", "permanent": true },
-    { "source": "/index.html", "destination": "/", "permanent": true }
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    {"source":"/privacy-policy","destination":"/privacy","permanent":true},
+    {"source":"/cookie-policy","destination":"/cookies","permanent":true},
+    {"source":"/terms-of-service","destination":"/terms","permanent":true},
+    {"source":"/terms-and-conditions","destination":"/terms","permanent":true}
   ],
   "headers": [
     {
